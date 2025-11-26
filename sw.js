@@ -1,4 +1,4 @@
-const CACHE_NAME = 'splitify-v6-offline';
+const CACHE_NAME = 'splitify-v7-offline';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -13,7 +13,6 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Caching assets');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
