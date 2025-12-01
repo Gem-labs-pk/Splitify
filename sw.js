@@ -1,4 +1,4 @@
-const CACHE_NAME = 'splitify-v7.2-offline';
+const CACHE_NAME = 'splitify-v8.0-offline';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,7 +6,8 @@ const ASSETS_TO_CACHE = [
   './icon.png',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap',
+  'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
 self.addEventListener('install', (event) => {
