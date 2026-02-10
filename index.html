@@ -77,7 +77,7 @@
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v9.4</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v9.9</span></p>
         </div>
     </div>
 
@@ -155,10 +155,10 @@
         </div>
     </div>
     
-    <!-- LEDGERS -->
+    <!-- LEDGERS (Manage Friends) -->
     <div id="modal-edit-friends" class="modal-overlay fixed inset-0 bg-white flex flex-col z-[60]"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">Manage Friends</h3><div class="w-10"></div></div><div class="p-4 bg-white border-b"><button onclick="openModal('addPerson')" class="w-full py-3 bg-blue-50 text-blue-600 font-bold rounded-xl border border-blue-100">+ Add New Friend</button></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="editFriendsList"></div></div>
     
-    <!-- ACCOUNT LEDGER (Cash/Bank) -->
+    <!-- ACCOUNT LEDGER (Cash/Bank) - 3 COLUMN LAYOUT -->
     <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
@@ -169,12 +169,24 @@
             <p class="text-blue-200 text-xs font-bold uppercase tracking-wider">Current Balance</p>
             <p class="text-3xl font-extrabold mt-1" id="accLedgerBalance">0</p>
         </div>
-        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="accLedgerList"></div>
+        <!-- Headers -->
+        <div class="grid grid-cols-[1fr_auto_auto] gap-2 px-4 py-2 bg-slate-50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <div>Detail</div>
+            <div class="w-20 text-right">Amount</div>
+            <div class="w-20 text-right">Balance</div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-white p-0" id="accLedgerList"></div>
+        <!-- Pagination -->
+        <div class="p-4 border-t bg-white safe-pb flex gap-4 justify-between items-center">
+            <button onclick="changeLedgerPage(-1)" id="btnPrevLedger" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-500 font-bold disabled:opacity-50 disabled:cursor-not-allowed">Prev</button>
+            <span id="ledgerPageIndicator" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Page 1</span>
+            <button onclick="changeLedgerPage(1)" id="btnNextLedger" class="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-bold disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+        </div>
     </div>
 
     <div id="modal-all-friends" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Friends</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="allFriendsList"></div></div>
     
-    <!-- PAGINATED HISTORY MODAL -->
+    <!-- HISTORY MODAL - LIST WITH TRASH ICON -->
     <div id="modal-history" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
@@ -189,14 +201,21 @@
         </div>
     </div>
     
-    <!-- Week Detail Modal -->
+    <!-- Week Detail Modal (Expenses) -->
     <div id="modal-week" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
-            <h3 class="font-bold text-lg">Week Details</h3>
+            <!-- RENAMED TO EXPENSES -->
+            <h3 class="font-bold text-lg">Expenses</h3>
             <div class="w-10"></div>
         </div>
-        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="weekDetailList"></div>
+        <!-- Headers for Week/Expenses View -->
+        <div class="grid grid-cols-[1fr_auto_auto] gap-2 px-4 py-2 bg-slate-50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <div>Detail</div>
+            <div class="w-20 text-right">Amount</div>
+            <div class="w-20 text-right">Total</div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-0" id="weekDetailList"></div>
         <div class="p-4 border-t bg-white safe-pb">
             <button onclick="resetWeekExpensesOnly()" class="w-full py-3 bg-red-50 text-red-600 font-bold rounded-xl active:bg-red-100 transition">Start New Week</button>
         </div>
@@ -204,16 +223,28 @@
     
     <div id="modal-addPerson" class="modal-overlay fixed inset-0 bg-black/60 z-[80] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-1 text-slate-800">New Friend</h3><input type="text" id="newPersonName" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold text-lg outline-none focus:border-blue-500 transition mb-6" placeholder="Name"><div class="flex gap-3"><button onclick="closeModal()" class="flex-1 py-3 text-slate-500 font-bold rounded-xl hover:bg-slate-50">Done</button><button onclick="addPerson()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition">Add</button></div></div></div>
     
-    <!-- INDIVIDUAL FRIEND LEDGER -->
+    <!-- INDIVIDUAL FRIEND LEDGER - 3 COLUMN LAYOUT -->
     <div id="modal-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
             <h3 id="ledgerName" class="font-bold text-lg">Details</h3>
             <div class="w-10"></div>
         </div>
-        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="ledgerList"></div>
+        <!-- Headers -->
+        <div class="grid grid-cols-[1fr_auto_auto] gap-2 px-4 py-2 bg-slate-50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <div>Detail</div>
+            <div class="w-20 text-right">Amount</div>
+            <div class="w-20 text-right">Balance</div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-white p-0" id="ledgerList"></div>
         <div class="p-6 border-t bg-white safe-pb">
             <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Net Balance</span><span id="ledgerTotal" class="text-2xl font-extrabold">0</span></div>
+            <!-- Pagination Controls for Friend Ledger -->
+            <div class="flex gap-4 justify-between items-center mt-4 pt-4 border-t border-slate-100">
+                <button onclick="changeLedgerPage(-1)" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-500 font-bold disabled:opacity-50 disabled:cursor-not-allowed" id="btnPrevFriendLedger">Prev</button>
+                <span id="friendLedgerPageIndicator" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Page 1</span>
+                <button onclick="changeLedgerPage(1)" class="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-bold disabled:opacity-50 disabled:cursor-not-allowed" id="btnNextFriendLedger">Next</button>
+            </div>
         </div>
     </div>
     
@@ -221,44 +252,28 @@
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '9.4'; 
+        const APP_VERSION = '9.9'; 
         const STORAGE_KEY = 'splitifyData_v8';
         let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
-        let historyPage = 0; const ITEMS_PER_PAGE = 10;
+        let historyPage = 0; let ledgerPage = 0; const ITEMS_PER_PAGE = 10;
+        let currentLedgerFilter = null; let currentLedgerId = null;
 
-        // Security Utility: For displaying text in HTML
+        // Security Utility
         function escapeHtml(text) {
             if (!text) return text;
-            return text.toString()
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
-
-        // Security Utility: For passing strings into inline JS handlers
         function escapeJs(text) {
-            return (text ?? '').toString()
-                .replace(/\\/g, '\\\\')
-                .replace(/'/g, "\\'")
-                .replace(/\n/g, '\\n');
+            return (text ?? '').toString().replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
         }
 
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js')); }
 
         window.onload = () => {
             const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) { 
-                appData = JSON.parse(saved); 
-                if(appData.tags) delete appData.tags;
-            } 
-            else { 
-                const old = localStorage.getItem('splitifyData_v7_1'); 
-                if(old) { appData = JSON.parse(old); delete appData.tags; saveData(); } 
-                else openOnboarding(); 
-            }
+            if (saved) { appData = JSON.parse(saved); if(appData.tags) delete appData.tags; } 
+            else { const old = localStorage.getItem('splitifyData_v7_1'); if(old) { appData = JSON.parse(old); delete appData.tags; saveData(); } else openOnboarding(); }
             recalculate(); updateWelcome();
             window.onpopstate = () => document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
         };
@@ -272,7 +287,7 @@
             let c=0, b=0, w=0, pBal={}; 
             for(let k in appData.people) pBal[k]=0;
             appData.trans.forEach(t => {
-                const amt=Number(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
+                const amt=parseInt(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
                 if(p && p!=='Self' && pBal[p]===undefined) pBal[p]=0;
                 
                 if(t.type==='EXPENSE') { if(isBank) b-=amt; else c-=amt; if(isCur) w+=amt; if(p && p!=='Self') pBal[p]+=amt; }
@@ -280,28 +295,28 @@
                 else if(t.type==='TRANSFER_OUT'||t.type==='DEBIT') { if(isBank) b-=amt; else c-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_SENT') { b-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_RECV') { b+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
-                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=Number(t.tax||0); }
-                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=Number(t.tax||0); }
+                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=parseInt(t.tax||0); }
+                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=parseInt(t.tax||0); }
                 
                 else if(t.type==='SPLIT_MAIN') { if(isBank) b-=amt; else c-=amt; }
                 else if(t.type==='SPLIT_SHARE') { if(isCur) w+=amt; }
                 else if(t.type==='SPLIT_DEBIT') { if(p) pBal[p]+=amt; }
                 
                 else if(t.type==='BALANCE_CORRECTION') { if(t.mode==='IN') { if(isBank) b+=amt; else c+=amt; } else { if(isBank) b-=amt; else c-=amt; } }
+                
                 else if(t.type==='PAID_FOR') { if(isBank) b-=amt; else c-=amt; if(p && p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='PAID_BY') { if(isCur) w+=amt; if(p && p!=='Self') pBal[p]-=amt; }
             });
             appData.cash=c; appData.bank=b; appData.week=w; appData.people=pBal; renderUI();
         }
 
-        // --- TIMELINE WITH ORIGINAL INDEX ---
+        // --- TIMELINE ---
         function getTimeline(filterType, filterId) {
             let c=0, b=0, w=0, pBal={};
             Object.keys(appData.people).forEach(p => pBal[p]=0);
             
-            // Map adds original index '_idx' to each item so deletion works correctly on filtered lists
-            const timeline = appData.trans.map((t, index) => {
-                const amt=Number(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
+            const timeline = appData.trans.map(t => {
+                const amt=parseInt(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
                 if(p && p!=='Self' && pBal[p]===undefined) pBal[p]=0;
                 
                 if(t.type==='EXPENSE') { if(isBank) b-=amt; else c-=amt; if(isCur) w+=amt; if(p && p!=='Self') pBal[p]+=amt; }
@@ -309,8 +324,8 @@
                 else if(t.type==='TRANSFER_OUT'||t.type==='DEBIT') { if(isBank) b-=amt; else c-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_SENT') { b-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_RECV') { b+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
-                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=Number(t.tax||0); }
-                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=Number(t.tax||0); }
+                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=parseInt(t.tax||0); }
+                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=parseInt(t.tax||0); }
                 else if(t.type==='SPLIT_MAIN') { if(isBank) b-=amt; else c-=amt; }
                 else if(t.type==='SPLIT_SHARE') { if(isCur) w+=amt; }
                 else if(t.type==='SPLIT_DEBIT') { if(p) pBal[p]+=amt; }
@@ -318,50 +333,28 @@
                 else if(t.type==='PAID_FOR') { if(isBank) b-=amt; else c-=amt; if(p && p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='PAID_BY') { if(isCur) w+=amt; if(p && p!=='Self') pBal[p]-=amt; }
                 
-                let bal = 0;
-                let show = false;
+                let bal = 0, show = false;
+                if(filterType === 'CASH') { bal = c; show = (t.source !== 'BANK'); } 
+                else if(filterType === 'BANK') { bal = b; show = (t.source === 'BANK'); } 
+                else if(filterType === 'FRIEND') { bal = pBal[filterId] || 0; show = (t.person === filterId); } 
+                else { show = true; }
                 
-                if(filterType === 'CASH') {
-                    bal = c;
-                    show = (t.source !== 'BANK');
-                } else if(filterType === 'BANK') {
-                    bal = b;
-                    show = (t.source === 'BANK');
-                } else if(filterType === 'FRIEND') {
-                    bal = pBal[filterId] || 0;
-                    show = (t.person === filterId);
-                } else {
-                    show = true; 
-                }
-                
-                return { ...t, _balance: bal, _show: show, _idx: index };
+                return { ...t, _balance: bal, _show: show };
             });
-            
             return timeline.filter(x => x._show).reverse();
         }
 
-        // --- GLOBAL DELETE HANDLER ---
+        // --- DELETE ---
         window.deleteTransaction = (index, person) => {
             if(confirm('Delete transaction?')){
                 appData.trans.splice(index, 1);
                 saveData();
                 renderUI(); 
-                
-                // Smart Refresh
-                if(document.getElementById('modal-ledger').classList.contains('active')) {
-                    openLedger(person);
-                } else if (document.getElementById('modal-account-ledger').classList.contains('active')) {
-                    const title = document.getElementById('accLedgerTitle').innerText;
-                    openAccountLedger(title.includes('Cash') ? 'CASH' : 'BANK');
-                } else if(document.getElementById('modal-history').classList.contains('active')) {
-                    renderHistoryPagination();
-                } else if(document.getElementById('modal-week').classList.contains('active')) {
-                    showWeekDetails();
-                }
+                if(document.getElementById('modal-history').classList.contains('active')) renderHistoryPagination();
             }
         };
 
-        // --- UI ---
+        // --- UI RENDERERS ---
         function renderUI() {
             document.getElementById('dispCash').innerText = appData.cash.toLocaleString();
             document.getElementById('dispBank').innerText = appData.bank.toLocaleString();
@@ -374,14 +367,89 @@
             
             if(sorted.length===0) list.innerHTML=`<div class="p-8 text-center text-slate-400 font-medium cursor-pointer" onclick="openSettings()">No active friends.<br><span class="text-blue-500 text-xs font-bold mt-2 inline-block"><i class="fa-solid fa-gear"></i> Go to Settings to Add</span></div>`; 
             else sorted.forEach(([n,b])=>{ 
-                const safeName = escapeHtml(n);
-                const jsName = escapeJs(n);
+                const safeName = escapeHtml(n); const jsName = escapeJs(n);
                 const c=b>=0?'text-green-600':'text-red-500', l=b>=0?'OWES YOU':'YOU OWE', bg=b>=0?'bg-green-50 text-green-600':'bg-red-50 text-red-500'; 
                 list.innerHTML+=`<div onclick="openLedger('${jsName}')" class="flex justify-between items-center p-4 hover:bg-slate-50 active:bg-slate-100 transition"><div class="flex items-center gap-4 pointer-events-none"><div class="w-12 h-12 rounded-full ${bg} flex items-center justify-center font-bold shadow-sm">${safeName[0]}</div><div><p class="font-bold text-slate-800">${safeName}</p><p class="text-[10px] text-slate-400 font-bold uppercase mt-1">${l}</p></div></div><div class="flex items-center gap-3 pointer-events-none"><p class="font-extrabold ${c}">${Math.abs(b).toLocaleString()}</p><i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i></div></div>`; 
             });
         }
 
-        // --- FORMS ---
+        // NEW: Render as 3 Column Layout (Fixed Ledger Style)
+        function renderLedgerRows(arr, elId) {
+            const el = document.getElementById(elId);
+            if(arr.length === 0) { el.innerHTML = `<div class="p-6 text-center text-slate-400 text-sm">No transactions found</div>`; return; }
+            let html = '<div class="divide-y divide-slate-50">';
+            arr.forEach(t => {
+                let color='text-slate-800';
+                
+                // Color Logic:
+                // Red = Money Out / Debt Increases / My Expense
+                // Green = Money In / Debt Decreases / They Paid
+                
+                if(t.type.includes('EXPENSE') || t.type === 'SPLIT_SHARE' || t.type === 'SPLIT_DEBIT') { color='text-red-500'; }
+                else if(t.type === 'PAID_BY') { color='text-green-600'; } 
+                else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { color='text-green-600'; }
+                else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { color='text-red-500'; }
+                
+                // Balance Logic (Color instead of sign)
+                let balHtml = '<span class="font-bold text-xs text-slate-400">-</span>';
+                if(t._balance !== undefined) {
+                    const balVal = parseInt(t._balance);
+                    // Green for Positive (They Owe Me/Cash Positive), Red for Negative
+                    const balColor = balVal >= 0 ? 'text-green-600' : 'text-red-500';
+                    balHtml = `<span class="font-bold text-xs ${balColor}">${Math.abs(balVal).toLocaleString()}</span>`;
+                }
+
+                html += `
+                <div class="grid grid-cols-[1fr_auto_auto] gap-2 items-center p-4 hover:bg-slate-50 transition">
+                    <div class="flex flex-col pr-2 min-w-0">
+                        <span class="font-bold text-slate-800 text-sm leading-tight truncate">${escapeHtml(t.desc)}</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">${escapeHtml(t.date)}</span>
+                    </div>
+                    <div class="w-20 text-right">
+                        <span class="font-bold text-sm ${color}">${parseInt(t.amt).toLocaleString()}</span>
+                    </div>
+                    <div class="w-20 text-right">
+                        ${balHtml}
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+            el.innerHTML = html;
+        }
+
+        // HISTORY: Render as List with Trash Icon
+        function renderTransList(arr, elId) {
+            const el = document.getElementById(elId); 
+            let html = `<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">`;
+            if (arr.length === 0) { html += `<div class="p-6 text-center text-slate-400 text-sm">No transactions found</div>`; } 
+            else {
+                arr.forEach((t) => {
+                    const realIndex = appData.trans.indexOf(t);
+                    const safePerson = escapeHtml(t.person || ''); const jsPerson = escapeJs(t.person || '');
+                    let color='text-slate-800';
+                    if(t.type.includes('EXPENSE')) { color='text-red-500'; }
+                    else if(t.type === 'PAID_BY') { color='text-green-600'; }
+                    else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { color='text-green-600'; }
+                    else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { color='text-orange-500'; }
+                    
+                    html += `
+                    <div class="flex justify-between items-center p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition">
+                        <div class="flex-1 pr-4">
+                            <p class="font-bold text-slate-800 text-sm leading-tight">${escapeHtml(t.desc)} <span class="text-xs font-normal text-slate-400">(${safePerson})</span></p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wide">${escapeHtml(t.date)}</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-bold text-sm ${color}">${parseInt(t.amt).toLocaleString()}</span>
+                            <button onclick="deleteTransaction(${realIndex}, '${jsPerson}')" class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition"><i class="fa-solid fa-trash text-xs"></i></button>
+                        </div>
+                    </div>`;
+                });
+            }
+            html += `</div>`;
+            el.innerHTML = html;
+        }
+
+        // --- FORMS & NAV ---
         function openForm(type) { currentFormType=type; editTransIndex=-1; openModal('form'); renderFormContent(); }
         function renderFormContent() {
             const content = document.getElementById('formContent');
@@ -413,7 +481,8 @@
                 checks += `</div>`;
                 const srcSel = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid From</label><div class="flex p-1 bg-slate-100 rounded-xl mt-1"><button onclick="setSource('CASH',this)" class="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600">Cash</button><button onclick="setSource('BANK',this)" class="flex-1 py-3 font-bold rounded-lg text-slate-400">Bank</button></div><input type=\"hidden\" id=\"inpSource\" value=\"CASH\"></div>`;
                 content.innerHTML = srcSel + amtInput + descInput + `<div><label class="text-xs font-bold text-slate-400 uppercase ml-1 mt-4 block">Split With</label>${checks}</div>`;
-            } else {
+            } else { 
+                const mode = document.getElementById('transferMode') ? document.getElementById('transferMode').value : 'GIVE';
                 title.innerText = currentFormType.replace('_',' ').toUpperCase();
                 const personSelect = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Person</label><select id="inpPerson" class="w-full p-4 bg-slate-50 border rounded-2xl font-bold mt-1 outline-none"><option value="Self">Self / Home</option>${pOpts}</select></div>`;
                 content.innerHTML = `<div class="grid grid-cols-2 gap-2 p-1 bg-white border rounded-xl mb-4"><button onclick="setTransferMode('GIVE')" id="btnGive" class="bg-red-50 text-red-600 py-2 rounded-lg font-bold border border-red-100">Give</button><button onclick="setTransferMode('REC')" id="btnRec" class="text-slate-400 py-2 rounded-lg font-bold">Received</button></div><input type="hidden" id="transferMode" value="GIVE">${personSelect} ${amtInput} ${descInput}`;
@@ -421,21 +490,19 @@
         }
 
         function submitForm() {
-            const amt = Number(document.getElementById('inpAmt').value);
+            const amt = parseInt(document.getElementById('inpAmt').value);
             const desc = document.getElementById('inpDesc').value || 'Transaction';
-            if (!Number.isFinite(amt) || amt <= 0) return alert("Please enter valid amount");
+            if (!amt) return alert("Please enter amount");
             
             const date = new Date().toLocaleDateString('en-GB', {day: 'numeric', month: 'short'});
             if(editTransIndex !== -1) appData.trans.splice(editTransIndex, 1);
 
             if(currentFormType === 'expense') { 
-                const source = document.getElementById('inpSource').value; 
-                const person = 'Self'; 
+                const source = document.getElementById('inpSource').value; const person = 'Self'; 
                 appData.trans.push({ date, type: 'EXPENSE', amt, desc, person, source }); 
             }
             else if(currentFormType === 'paid_for') {
-                const source = document.getElementById('inpSource').value;
-                const person = document.getElementById('inpPerson').value;
+                const source = document.getElementById('inpSource').value; const person = document.getElementById('inpPerson').value;
                 appData.trans.push({ date, type: 'PAID_FOR', amt, desc, person, source });
             }
             else if(currentFormType === 'paid_by') {
@@ -447,62 +514,16 @@
                 const friends = Array.from(document.querySelectorAll('.split-check:checked')).map(c => c.value);
                 if(!friends.length) return alert("Select friends");
                 const share = Math.round(amt / (friends.length + 1));
-                
                 appData.trans.push({ date, type: 'SPLIT_MAIN', amt, desc: desc+" (Total)", person: 'Self', source });
                 appData.trans.push({ date, type: 'SPLIT_SHARE', amt: share, desc: desc+" (My Share)", person: 'Self' });
                 friends.forEach(p => appData.trans.push({ date, type: 'SPLIT_DEBIT', amt: share, desc, person: p }));
             }
-            else { // Transfers
-                const mode = document.getElementById('transferMode').value;
-                const person = document.getElementById('inpPerson').value;
-                const source = currentFormType.includes('bank') ? 'BANK' : 'CASH';
-                const type = mode === 'GIVE' ? 'TRANSFER_OUT' : 'TRANSFER_IN';
+            else { 
+                const mode = document.getElementById('transferMode').value; const person = document.getElementById('inpPerson').value;
+                const source = currentFormType.includes('bank') ? 'BANK' : 'CASH'; const type = mode === 'GIVE' ? 'TRANSFER_OUT' : 'TRANSFER_IN';
                 appData.trans.push({ date, type, amt, desc, person, source });
             }
             saveData(); closeModal();
-        }
-
-        // --- UTILS ---
-        function renderTransList(arr, elId) {
-            const el = document.getElementById(elId); 
-            let html = `<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">`;
-            
-            if (arr.length === 0) {
-                html += `<div class="p-6 text-center text-slate-400 text-sm">No transactions found</div>`;
-            } else {
-                arr.forEach((t) => {
-                    // Use _idx from timeline if available, otherwise fallback to finding it (riskier but works for unfiltered)
-                    const realIndex = t._idx !== undefined ? t._idx : appData.trans.indexOf(t);
-                    const safePerson = escapeHtml(t.person || '');
-                    const jsPerson = escapeJs(t.person || '');
-                    
-                    let color='text-slate-800';
-                    if(t.type.includes('EXPENSE') || t.type === 'PAID_BY') { color='text-red-500'; }
-                    else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { color='text-green-600'; }
-                    else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { color='text-orange-500'; }
-                    
-                    let balHtml = '';
-                    if(t._balance !== undefined) {
-                        const balColor = t._balance >= 0 ? 'text-green-600' : 'text-red-500';
-                        balHtml = `<div class="text-[10px] font-bold mt-1 text-right ${balColor}">Bal: ${Math.abs(t._balance).toLocaleString()}</div>`;
-                    }
-
-                    // Using deleteTransaction(index, person) to handle deletion safely
-                    html += `
-                    <div class="flex justify-between items-start p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition cursor-pointer" onclick="deleteTransaction(${realIndex}, '${jsPerson}')">
-                        <div class="flex-1 pr-4">
-                            <p class="font-bold text-slate-800 text-sm leading-tight">${escapeHtml(t.desc)}</p>
-                            <p class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wide">${escapeHtml(t.date)}</p>
-                        </div>
-                        <div class="text-right whitespace-nowrap">
-                            <span class="font-bold text-sm ${color}">${Number(t.amt).toLocaleString()}</span>
-                            ${balHtml}
-                        </div>
-                    </div>`;
-                });
-            }
-            html += `</div>`;
-            el.innerHTML = html;
         }
 
         function openSettings() { openModal('settings'); }
@@ -513,62 +534,88 @@
         
         function openAccountLedger(type) { 
             openModal('account-ledger'); 
+            currentLedgerFilter = type; currentLedgerId = null; ledgerPage = 0;
             document.getElementById('accLedgerTitle').innerText=(type==='CASH'?"Cash":"Bank")+" Ledger"; 
             document.getElementById('accLedgerBalance').innerText=(type==='CASH'?appData.cash:appData.bank).toLocaleString(); 
-            const arr = getTimeline(type, null);
-            renderTransList(arr, 'accLedgerList'); 
+            renderLedgerPagination('accLedgerList'); 
         }
 
         function openAllFriendsModal() { openModal('all-friends'); document.getElementById('allFriendsList').innerHTML=Object.entries(appData.people).map(([n,b])=>`<div onclick="openLedger('${escapeJs(n)}')" class="flex justify-between p-4 border rounded-xl mb-2"><span class="font-bold">${escapeHtml(n)}</span><span class="font-bold ${b>=0?'text-green-600':'text-red-500'}">${Math.abs(b)}</span></div>`).join(''); }
         
-        function showAllHistory() { 
-            historyPage = 0;
-            openModal('history');
-            renderHistoryPagination();
-        }
+        function showAllHistory() { historyPage = 0; openModal('history'); renderHistoryPagination(); }
 
         function renderHistoryPagination() {
-            const all = [...appData.trans].reverse();
-            const start = historyPage * ITEMS_PER_PAGE;
+            const all = [...appData.trans].reverse(); const start = historyPage * ITEMS_PER_PAGE;
             const paged = all.slice(start, start + ITEMS_PER_PAGE);
             renderTransList(paged, 'fullHistoryList'); 
-
             document.getElementById('btnPrevHistory').disabled = historyPage === 0;
             document.getElementById('btnNextHistory').disabled = (start + ITEMS_PER_PAGE) >= all.length;
             document.getElementById('historyPageIndicator').innerText = `Page ${historyPage + 1}`;
         }
 
-        function changeHistoryPage(d) {
-            historyPage += d;
-            renderHistoryPagination();
-            document.getElementById('fullHistoryList').scrollTop = 0;
+        function changeHistoryPage(d) { historyPage += d; renderHistoryPagination(); document.getElementById('fullHistoryList').scrollTop = 0; }
+        
+        // Ledger Pagination System
+        function renderLedgerPagination(targetListId) {
+            const arr = getTimeline(currentLedgerFilter, currentLedgerId);
+            const start = ledgerPage * ITEMS_PER_PAGE;
+            const paged = arr.slice(start, start + ITEMS_PER_PAGE);
+            renderLedgerRows(paged, targetListId);
+            
+            let btnPrev, btnNext, indicator;
+            if(currentLedgerFilter === 'FRIEND') {
+                btnPrev = document.getElementById('btnPrevFriendLedger');
+                btnNext = document.getElementById('btnNextFriendLedger');
+                indicator = document.getElementById('friendLedgerPageIndicator');
+            } else {
+                btnPrev = document.getElementById('btnPrevLedger');
+                btnNext = document.getElementById('btnNextLedger');
+                indicator = document.getElementById('ledgerPageIndicator');
+            }
+
+            if(btnPrev) btnPrev.disabled = ledgerPage === 0;
+            if(btnNext) btnNext.disabled = (start + ITEMS_PER_PAGE) >= arr.length;
+            if(indicator) indicator.innerText = `Page ${ledgerPage + 1}`;
         }
 
+        function changeLedgerPage(d) {
+            ledgerPage += d;
+            if(currentLedgerFilter === 'FRIEND') {
+                renderLedgerPagination('ledgerList');
+                document.getElementById('ledgerList').scrollTop = 0;
+            } else {
+                renderLedgerPagination('accLedgerList');
+                document.getElementById('accLedgerList').scrollTop = 0;
+            }
+        }
+        
         function showWeekDetails() { 
             openModal('week'); 
-            const arr = [...appData.trans].reverse().filter(t => !t.weekReset && (t.type==='EXPENSE' || t.type==='SPLIT_SHARE' || t.type==='PAID_BY'));
-            renderTransList(arr, 'weekDetailList'); 
+            // Calculate running totals for week view (Expenses)
+            // Filter first
+            const raw = appData.trans.filter(t => !t.weekReset && (t.type==='EXPENSE' || t.type==='SPLIT_SHARE' || t.type==='PAID_BY'));
+            
+            // Calculate running total chronologically
+            let running = 0;
+            const withBal = raw.map(t => {
+                const amt = parseInt(t.amt)||0;
+                running += amt;
+                return { ...t, _balance: running };
+            });
+            
+            // Display reversed (Newest First)
+            renderLedgerRows(withBal.reverse(), 'weekDetailList'); 
         }
 
         function openLedger(name) { 
             openModal('ledger'); 
+            currentLedgerFilter = 'FRIEND'; currentLedgerId = name; ledgerPage = 0;
             document.getElementById('ledgerName').innerText=name; 
-            const arr = getTimeline('FRIEND', name);
-            renderTransList(arr, 'ledgerList'); 
+            renderLedgerPagination('ledgerList');
             document.getElementById('ledgerTotal').innerText=Math.abs(appData.people[name]); 
         }
 
-        function openEditFriends() { 
-            openModal('edit-friends'); 
-            const l=document.getElementById('editFriendsList'); 
-            l.innerHTML=''; 
-            Object.keys(appData.people).forEach(p=>{ 
-                const safeP = escapeHtml(p);
-                const jsP = escapeJs(p);
-                l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${safeP}</span><div class="flex gap-2"><button onclick="renameFriend('${jsP}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${jsP}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; 
-            }); 
-        }
-
+        function openEditFriends() { openModal('edit-friends'); const l=document.getElementById('editFriendsList'); l.innerHTML=''; Object.keys(appData.people).forEach(p=>{ const safeP = escapeHtml(p); const jsP = escapeJs(p); l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${safeP}</span><div class="flex gap-2"><button onclick="renameFriend('${jsP}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${jsP}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; }); }
         function addPerson() { const n=document.getElementById('newPersonName').value; if(n){ appData.people[n]=0; saveData(); document.getElementById('newPersonName').value=''; alert("Added!"); } }
         function renameFriend(o) { const n=prompt("New Name:",o); if(n&&n!==o){appData.people[n]=appData.people[o]; delete appData.people[o]; appData.trans.forEach(t=>{if(t.person===o)t.person=n}); saveData(); openEditFriends();} }
         function deleteFriend(n) { if(confirm("Delete "+n+"?")) { delete appData.people[n]; appData.trans=appData.trans.filter(t=>t.person!==n); saveData(); openEditFriends(); } }
