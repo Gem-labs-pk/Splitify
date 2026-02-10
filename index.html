@@ -71,19 +71,22 @@
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-slate-50 min-h-[100px]" id="peopleList"></div>
         </div>
 
-        <!-- History -->
-        <div>
-            <div class="flex justify-between items-center px-1 mb-2">
-                <h2 class="font-bold text-slate-400 text-xs uppercase tracking-wide">Recent History</h2>
-                <button onclick="showAllHistory()" class="text-blue-600 text-xs font-bold active:opacity-50">View All</button>
+        <!-- History Button (Replaced List) -->
+        <button onclick="showAllHistory()" class="w-full py-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between px-6 active:bg-slate-50 transition group">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-active:scale-90 transition"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <div class="text-left">
+                    <p class="font-bold text-slate-700">Transaction History</p>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">View All</p>
+                </div>
             </div>
-            <div id="transList" class="space-y-2"></div>
-        </div>
+            <i class="fa-solid fa-chevron-right text-slate-300"></i>
+        </button>
 
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.7</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.8</span></p>
         </div>
     </div>
 
@@ -161,7 +164,21 @@
     <div id="modal-edit-friends" class="modal-overlay fixed inset-0 bg-white flex flex-col z-[60]"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">Manage Friends</h3><div class="w-10"></div></div><div class="p-4 bg-white border-b"><button onclick="openModal('addPerson')" class="w-full py-3 bg-blue-50 text-blue-600 font-bold rounded-xl border border-blue-100">+ Add New Friend</button></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="editFriendsList"></div></div>
     <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 id="accLedgerTitle" class="font-bold text-lg">Account Ledger</h3><div class="w-10"></div></div><div id="accLedgerHeader" class="p-6 bg-blue-600 text-white"><p class="text-blue-200 text-xs font-bold uppercase tracking-wider">Current Balance</p><p class="text-3xl font-extrabold mt-1" id="accLedgerBalance">0</p></div><div class="flex-1 overflow-y-auto bg-slate-50"><table class="w-full text-left text-sm border-collapse"><tbody id="accLedgerBody" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
     <div id="modal-all-friends" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Friends</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="allFriendsList"></div></div>
-    <div id="modal-history" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Transactions</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="fullHistoryList"></div></div>
+    
+    <!-- PAGINATED HISTORY MODAL -->
+    <div id="modal-history" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
+            <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
+            <h3 class="font-bold text-lg">All Transactions</h3>
+            <div class="w-10"></div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="fullHistoryList"></div>
+        <div class="p-4 border-t bg-white safe-pb flex gap-4 justify-between items-center">
+            <button onclick="changeHistoryPage(-1)" id="btnPrevHistory" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-500 font-bold disabled:opacity-50 disabled:cursor-not-allowed">Prev</button>
+            <span id="historyPageIndicator" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Page 1</span>
+            <button onclick="changeHistoryPage(1)" id="btnNextHistory" class="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-bold disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+        </div>
+    </div>
     
     <!-- Week Detail Modal with Reset Button -->
     <div id="modal-week" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
@@ -182,10 +199,11 @@
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '8.7'; 
+        const APP_VERSION = '8.8'; 
         const STORAGE_KEY = 'splitifyData_v8';
         let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
+        let historyPage = 0; const ITEMS_PER_PAGE = 10;
 
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js')); }
 
@@ -259,7 +277,6 @@
             
             if(sorted.length===0) list.innerHTML=`<div class="p-8 text-center text-slate-400 font-medium cursor-pointer" onclick="openSettings()">No active friends.<br><span class="text-blue-500 text-xs font-bold mt-2 inline-block"><i class="fa-solid fa-gear"></i> Go to Settings to Add</span></div>`; 
             else sorted.forEach(([n,b])=>{ const c=b>=0?'text-green-600':'text-red-500', l=b>=0?'OWES YOU':'YOU OWE', bg=b>=0?'bg-green-50 text-green-600':'bg-red-50 text-red-500'; list.innerHTML+=`<div onclick="openLedger('${n}')" class="flex justify-between items-center p-4 hover:bg-slate-50 active:bg-slate-100 transition"><div class="flex items-center gap-4 pointer-events-none"><div class="w-12 h-12 rounded-full ${bg} flex items-center justify-center font-bold shadow-sm">${n[0]}</div><div><p class="font-bold text-slate-800">${n}</p><p class="text-[10px] text-slate-400 font-bold uppercase mt-1">${l}</p></div></div><div class="flex items-center gap-3 pointer-events-none"><p class="font-extrabold ${c}">${Math.abs(b).toLocaleString()}</p><i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i></div></div>`; });
-            renderTransList([...appData.trans].reverse().slice(0,3), 'transList');
         }
 
         // --- FORMS ---
@@ -353,7 +370,7 @@
                 else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { icon='fa-arrow-down'; color='bg-green-100 text-green-500'; }
                 else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { icon='fa-arrow-up'; color='bg-orange-100 text-orange-500'; }
                 
-                el.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm"><div class="flex items-center gap-3 overflow-hidden"><div class="w-10 h-10 rounded-full ${color} flex items-center justify-center shrink-0"><i class="fa-solid ${icon}"></i></div><div class="min-w-0"><p class="font-bold text-slate-700 truncate text-sm flex items-center">${t.desc}</p><p class="text-[10px] text-slate-400 font-bold uppercase">${t.date} • ${t.person||'Self'}</p></div></div><div class="flex items-center gap-2 pl-2"><span class="font-bold text-slate-800">${parseInt(t.amt).toLocaleString()}</span><button onclick="if(confirm('Delete?')){appData.trans.splice(${realIndex},1);saveData();renderUI();}" class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash text-xs"></i></button></div></div>`;
+                el.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm"><div class="flex items-center gap-3 overflow-hidden"><div class="w-10 h-10 rounded-full ${color} flex items-center justify-center shrink-0"><i class="fa-solid ${icon}"></i></div><div class="min-w-0"><p class="font-bold text-slate-700 truncate text-sm flex items-center">${t.desc}</p><p class="text-[10px] text-slate-400 font-bold uppercase">${t.date} • ${t.person||'Self'}</p></div></div><div class="flex items-center gap-2 pl-2"><span class="font-bold text-slate-800">${parseInt(t.amt).toLocaleString()}</span><button onclick="if(confirm('Delete?')){appData.trans.splice(${realIndex},1);saveData();renderUI();if(typeof renderHistoryPagination === 'function') renderHistoryPagination();}" class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash text-xs"></i></button></div></div>`;
             });
         }
         function openSettings() { openModal('settings'); }
@@ -363,7 +380,6 @@
         function changeName() { const n=prompt("Name:",appData.userName); if(n){appData.userName=n;saveData();updateWelcome();closeModal();} }
         function openAccountLedger(type) { openModal('account-ledger'); document.getElementById('accLedgerTitle').innerText=(type==='CASH'?"Cash":"Bank")+" Ledger"; document.getElementById('accLedgerBalance').innerText=(type==='CASH'?appData.cash:appData.bank).toLocaleString(); const tb=document.getElementById('accLedgerBody'); tb.innerHTML=''; appData.trans.filter(t=>(type==='BANK'?t.source==='BANK':t.source!=='BANK')).reverse().forEach(t=>{ let amt=parseInt(t.amt), c="text-green-600", s="+"; if(['EXPENSE','TRANSFER_OUT','DEBIT','SPLIT_MAIN','ACC_SENT','TRF_DEP', 'PAID_FOR'].includes(t.type) || (type==='BANK'&&t.type==='TRF_WDL')) { amt=-amt; c="text-red-500"; s=""; } tb.innerHTML+=`<tr><td class="p-4 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date}</div></td><td class="p-4 border-b text-right font-mono font-bold ${c}">${s}${Math.abs(amt)}</td></tr>`; }); }
         function openAllFriendsModal() { openModal('all-friends'); document.getElementById('allFriendsList').innerHTML=Object.entries(appData.people).map(([n,b])=>`<div onclick="openLedger('${n}')" class="flex justify-between p-4 border rounded-xl mb-2"><span class="font-bold">${n}</span><span class="font-bold ${b>=0?'text-green-600':'text-red-500'}">${Math.abs(b)}</span></div>`).join(''); }
-        function showAllHistory() { openModal('history'); renderTransList([...appData.trans].reverse(), 'fullHistoryList'); }
         function showWeekDetails() { openModal('week'); renderTransList([...appData.trans].reverse().filter(t => !t.weekReset && (t.type==='EXPENSE' || t.type==='SPLIT_SHARE' || t.type==='PAID_BY')), 'weekDetailList'); }
         function openLedger(name) { openModal('ledger'); document.getElementById('ledgerName').innerText=name; const tb=document.getElementById('ledgerTableBody'); tb.innerHTML=''; appData.trans.filter(t=>t.person===name).reverse().forEach(t=>{ let d='', c=''; if(['DEBIT','ACC_SENT','TRANSFER_OUT','SPLIT_DEBIT', 'PAID_FOR'].includes(t.type)) d=t.amt; if(['RECEIVED','ACC_RECV','TRANSFER_IN', 'PAID_BY'].includes(t.type)) c=t.amt; if(t.type==='EXPENSE') d=t.amt; if(d||c) tb.innerHTML+=`<tr><td class="p-4 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date}</div></td><td class="p-4 border-b text-right text-red-500 font-bold">${d}</td><td class="p-4 border-b text-right text-green-600 font-bold">${c}</td></tr>`; }); document.getElementById('ledgerTotal').innerText=Math.abs(appData.people[name]); }
         function openEditFriends() { openModal('edit-friends'); const l=document.getElementById('editFriendsList'); l.innerHTML=''; Object.keys(appData.people).forEach(p=>{ l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${p}</span><div class="flex gap-2"><button onclick="renameFriend('${p}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${p}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; }); }
@@ -379,6 +395,31 @@
         function resetApp() { if(confirm("Start Fresh? ALL DATA WILL BE LOST.")) { localStorage.removeItem(STORAGE_KEY); location.reload(); } }
         function downloadData() { const a = document.createElement("a"); a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData)); a.download = "splitify_backup.json"; a.click(); }
         function importData(input) { const r = new FileReader(); r.onload = (e) => { try { appData = JSON.parse(e.target.result); saveData(); alert("Data Restored!"); closeModal(); } catch(err) { alert("Invalid File"); } }; r.readAsText(input.files[0]); }
+        
+        // --- HISTORY PAGINATION ---
+        function showAllHistory() {
+            historyPage = 0;
+            openModal('history');
+            renderHistoryPagination();
+        }
+
+        function renderHistoryPagination() {
+            const all = [...appData.trans].reverse();
+            const start = historyPage * ITEMS_PER_PAGE;
+            const paged = all.slice(start, start + ITEMS_PER_PAGE);
+            renderTransList(paged, 'fullHistoryList');
+
+            // Update Buttons
+            document.getElementById('btnPrevHistory').disabled = historyPage === 0;
+            document.getElementById('btnNextHistory').disabled = (start + ITEMS_PER_PAGE) >= all.length;
+            document.getElementById('historyPageIndicator').innerText = `Page ${historyPage + 1}`;
+        }
+
+        function changeHistoryPage(d) {
+            historyPage += d;
+            renderHistoryPagination();
+            document.getElementById('fullHistoryList').scrollTop = 0;
+        }
     </script>
 </body>
 </html>
