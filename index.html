@@ -71,12 +71,10 @@
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-slate-50 min-h-[100px]" id="peopleList"></div>
         </div>
 
-        <!-- History Button Removed from here -->
-
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.9</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v9.2</span></p>
         </div>
     </div>
 
@@ -157,17 +155,31 @@
     
     <!-- LEDGERS -->
     <div id="modal-edit-friends" class="modal-overlay fixed inset-0 bg-white flex flex-col z-[60]"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">Manage Friends</h3><div class="w-10"></div></div><div class="p-4 bg-white border-b"><button onclick="openModal('addPerson')" class="w-full py-3 bg-blue-50 text-blue-600 font-bold rounded-xl border border-blue-100">+ Add New Friend</button></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="editFriendsList"></div></div>
-    <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 id="accLedgerTitle" class="font-bold text-lg">Account Ledger</h3><div class="w-10"></div></div><div id="accLedgerHeader" class="p-6 bg-blue-600 text-white"><p class="text-blue-200 text-xs font-bold uppercase tracking-wider">Current Balance</p><p class="text-3xl font-extrabold mt-1" id="accLedgerBalance">0</p></div><div class="flex-1 overflow-y-auto bg-slate-50"><table class="w-full text-left text-sm border-collapse"><tbody id="accLedgerBody" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
+    
+    <!-- ACCOUNT LEDGER (Cash/Bank) - LIST STYLE -->
+    <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
+            <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
+            <h3 id="accLedgerTitle" class="font-bold text-lg">Account Ledger</h3>
+            <div class="w-10"></div>
+        </div>
+        <div id="accLedgerHeader" class="p-6 bg-blue-600 text-white">
+            <p class="text-blue-200 text-xs font-bold uppercase tracking-wider">Current Balance</p>
+            <p class="text-3xl font-extrabold mt-1" id="accLedgerBalance">0</p>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="accLedgerList"></div>
+    </div>
+
     <div id="modal-all-friends" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Friends</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="allFriendsList"></div></div>
     
-    <!-- PAGINATED HISTORY MODAL -->
+    <!-- PAGINATED HISTORY MODAL - LIST STYLE -->
     <div id="modal-history" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
             <h3 class="font-bold text-lg">All Transactions</h3>
             <div class="w-10"></div>
         </div>
-        <div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="fullHistoryList"></div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="fullHistoryList"></div>
         <div class="p-4 border-t bg-white safe-pb flex gap-4 justify-between items-center">
             <button onclick="changeHistoryPage(-1)" id="btnPrevHistory" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-500 font-bold disabled:opacity-50 disabled:cursor-not-allowed">Prev</button>
             <span id="historyPageIndicator" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Page 1</span>
@@ -175,26 +187,39 @@
         </div>
     </div>
     
-    <!-- Week Detail Modal with Reset Button -->
+    <!-- Week Detail Modal - LIST STYLE -->
     <div id="modal-week" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
             <h3 class="font-bold text-lg">Week Details</h3>
             <div class="w-10"></div>
         </div>
-        <div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="weekDetailList"></div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="weekDetailList"></div>
         <div class="p-4 border-t bg-white safe-pb">
             <button onclick="resetWeekExpensesOnly()" class="w-full py-3 bg-red-50 text-red-600 font-bold rounded-xl active:bg-red-100 transition">Start New Week</button>
         </div>
     </div>
     
     <div id="modal-addPerson" class="modal-overlay fixed inset-0 bg-black/60 z-[80] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-1 text-slate-800">New Friend</h3><input type="text" id="newPersonName" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold text-lg outline-none focus:border-blue-500 transition mb-6" placeholder="Name"><div class="flex gap-3"><button onclick="closeModal()" class="flex-1 py-3 text-slate-500 font-bold rounded-xl hover:bg-slate-50">Done</button><button onclick="addPerson()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition">Add</button></div></div></div>
-    <div id="modal-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 id="ledgerName" class="font-bold text-lg">Details</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50"><table class="w-full text-left text-sm border-collapse"><tbody id="ledgerTableBody" class="divide-y divide-slate-100 bg-white"></tbody></table></div><div class="p-6 border-t bg-white safe-pb"><div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Net Balance</span><span id="ledgerTotal" class="text-2xl font-extrabold">0</span></div></div></div>
+    
+    <!-- INDIVIDUAL FRIEND LEDGER - LIST STYLE -->
+    <div id="modal-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
+            <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
+            <h3 id="ledgerName" class="font-bold text-lg">Details</h3>
+            <div class="w-10"></div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="ledgerList"></div>
+        <div class="p-6 border-t bg-white safe-pb">
+            <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Net Balance</span><span id="ledgerTotal" class="text-2xl font-extrabold">0</span></div>
+        </div>
+    </div>
+    
     <div id="modal-reset-opts" class="modal-overlay fixed inset-0 bg-black/60 z-[80] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-lg mb-4 text-slate-800">What to reset?</h3><div class="space-y-2"><button onclick="resetWeekExpensesOnly()" class="w-full p-3 bg-blue-50 text-blue-700 rounded-xl font-bold">Reset Expenses Only</button><button onclick="resetBalance('CASH')" class="w-full p-3 bg-slate-50 text-slate-700 rounded-xl font-bold">Reset Cash to 0</button><button onclick="resetBalance('BANK')" class="w-full p-3 bg-slate-50 text-slate-700 rounded-xl font-bold">Reset Bank to 0</button></div><button onclick="closeModal()" class="w-full py-3 mt-2 text-slate-400 font-bold">Cancel</button></div></div>
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '8.9'; 
+        const APP_VERSION = '9.2'; 
         const STORAGE_KEY = 'splitifyData_v8';
         let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
@@ -259,6 +284,56 @@
             appData.cash=c; appData.bank=b; appData.week=w; appData.people=pBal; renderUI();
         }
 
+        // --- NEW: Calculate Timeline with Running Balances ---
+        function getTimeline(filterType, filterId) {
+            let c=0, b=0, w=0, pBal={};
+            // Ensure people exist
+            Object.keys(appData.people).forEach(p => pBal[p]=0);
+            
+            const timeline = appData.trans.map(t => {
+                const amt=parseInt(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
+                if(p && p!=='Self' && pBal[p]===undefined) pBal[p]=0;
+                
+                // Re-apply math logic step-by-step
+                if(t.type==='EXPENSE') { if(isBank) b-=amt; else c-=amt; if(isCur) w+=amt; if(p && p!=='Self') pBal[p]+=amt; }
+                else if(t.type==='TRANSFER_IN'||t.type==='RECEIVED') { if(isBank) b+=amt; else c+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
+                else if(t.type==='TRANSFER_OUT'||t.type==='DEBIT') { if(isBank) b-=amt; else c-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
+                else if(t.type==='ACC_SENT') { b-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
+                else if(t.type==='ACC_RECV') { b+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
+                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=parseInt(t.tax||0); }
+                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=parseInt(t.tax||0); }
+                else if(t.type==='SPLIT_MAIN') { if(isBank) b-=amt; else c-=amt; }
+                else if(t.type==='SPLIT_SHARE') { if(isCur) w+=amt; }
+                else if(t.type==='SPLIT_DEBIT') { if(p) pBal[p]+=amt; }
+                else if(t.type==='BALANCE_CORRECTION') { if(t.mode==='IN') { if(isBank) b+=amt; else c+=amt; } else { if(isBank) b-=amt; else c-=amt; } }
+                else if(t.type==='PAID_FOR') { if(isBank) b-=amt; else c-=amt; if(p && p!=='Self') pBal[p]+=amt; }
+                else if(t.type==='PAID_BY') { if(isCur) w+=amt; if(p && p!=='Self') pBal[p]-=amt; }
+                
+                // Capture State & Relevance
+                let bal = 0;
+                let show = false;
+                
+                if(filterType === 'CASH') {
+                    bal = c;
+                    // Show if source is CASH (and not just debt adjustment) or movement involving Cash
+                    // Logic from v9.0 filter: (t.source !== 'BANK') generally covers Cash items
+                    show = (t.source !== 'BANK');
+                } else if(filterType === 'BANK') {
+                    bal = b;
+                    show = (t.source === 'BANK');
+                } else if(filterType === 'FRIEND') {
+                    bal = pBal[filterId] || 0;
+                    show = (t.person === filterId);
+                } else {
+                    show = true; // General history
+                }
+                
+                return { ...t, _balance: bal, _show: show };
+            });
+            
+            return timeline.filter(x => x._show).reverse();
+        }
+
         // --- UI ---
         function renderUI() {
             document.getElementById('dispCash').innerText = appData.cash.toLocaleString();
@@ -286,7 +361,6 @@
             if(currentFormType === 'expense') {
                 title.innerText = "Add Expense";
                 const srcSel = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid From</label><div class="flex p-1 bg-slate-100 rounded-xl mt-1"><button onclick="setSource('CASH',this)" class="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600">Cash</button><button onclick="setSource('BANK',this)" class="flex-1 py-3 font-bold rounded-lg text-slate-400">Bank</button></div><input type=\"hidden\" id=\"inpSource\" value=\"CASH\"></div>`;
-                // REMOVED Paid For selection as per request
                 content.innerHTML = srcSel + amtInput + descInput;
             } 
             else if(currentFormType === 'paid_for') {
@@ -323,7 +397,7 @@
 
             if(currentFormType === 'expense') { 
                 const source = document.getElementById('inpSource').value; 
-                const person = 'Self'; // Forced to Self
+                const person = 'Self'; 
                 appData.trans.push({ date, type: 'EXPENSE', amt, desc, person, source }); 
             }
             else if(currentFormType === 'paid_for') {
@@ -333,7 +407,7 @@
             }
             else if(currentFormType === 'paid_by') {
                 const person = document.getElementById('inpPerson').value;
-                appData.trans.push({ date, type: 'PAID_BY', amt, desc, person, source: 'CASH' }); // Source irrelevant but required for data structure
+                appData.trans.push({ date, type: 'PAID_BY', amt, desc, person, source: 'CASH' }); 
             }
             else if(currentFormType === 'split') {
                 const source = document.getElementById('inpSource').value; 
@@ -357,27 +431,100 @@
 
         // --- UTILS ---
         function renderTransList(arr, elId) {
-            const el = document.getElementById(elId); el.innerHTML = '';
-            arr.forEach((t) => {
-                const realIndex = appData.trans.indexOf(t);
-                let icon='fa-receipt', color='bg-slate-100 text-slate-500';
-                if(t.type.includes('EXPENSE') || t.type === 'PAID_BY') { icon='fa-arrow-trend-down'; color='bg-red-100 text-red-500'; }
-                else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { icon='fa-arrow-down'; color='bg-green-100 text-green-500'; }
-                else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { icon='fa-arrow-up'; color='bg-orange-100 text-orange-500'; }
-                
-                el.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm"><div class="flex items-center gap-3 overflow-hidden"><div class="w-10 h-10 rounded-full ${color} flex items-center justify-center shrink-0"><i class="fa-solid ${icon}"></i></div><div class="min-w-0"><p class="font-bold text-slate-700 truncate text-sm flex items-center">${t.desc}</p><p class="text-[10px] text-slate-400 font-bold uppercase">${t.date} • ${t.person||'Self'}</p></div></div><div class="flex items-center gap-2 pl-2"><span class="font-bold text-slate-800">${parseInt(t.amt).toLocaleString()}</span><button onclick="if(confirm('Delete?')){appData.trans.splice(${realIndex},1);saveData();renderUI();if(typeof renderHistoryPagination === 'function') renderHistoryPagination();}" class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash text-xs"></i></button></div></div>`;
-            });
+            const el = document.getElementById(elId); 
+            // Create a wrapper container for clean grouping if not present, but since we are replacing innerHTML of existing containers, we build the full HTML string.
+            // We use a clean list style.
+            let html = `<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">`;
+            
+            if (arr.length === 0) {
+                html += `<div class="p-6 text-center text-slate-400 text-sm">No transactions found</div>`;
+            } else {
+                arr.forEach((t) => {
+                    const realIndex = appData.trans.indexOf(t);
+                    let color='text-slate-800';
+                    if(t.type.includes('EXPENSE') || t.type === 'PAID_BY') { color='text-red-500'; }
+                    else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { color='text-green-600'; }
+                    else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { color='text-orange-500'; }
+                    
+                    // Running Balance with Color instead of Sign
+                    let balHtml = '';
+                    if(t._balance !== undefined) {
+                        const balColor = t._balance >= 0 ? 'text-green-600' : 'text-red-500';
+                        balHtml = `<div class="text-[10px] font-bold mt-1 text-right ${balColor}">Bal: ${Math.abs(t._balance).toLocaleString()}</div>`;
+                    }
+
+                    html += `
+                    <div class="flex justify-between items-start p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition cursor-pointer" onclick="if(confirm('Delete transaction?')){appData.trans.splice(${realIndex},1);saveData();renderUI();if(typeof renderHistoryPagination === 'function') renderHistoryPagination();if(document.getElementById('modal-ledger').classList.contains('active'))openLedger(t.person);}">
+                        <div class="flex-1 pr-4">
+                            <p class="font-bold text-slate-800 text-sm leading-tight">${t.desc}</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wide">${t.date}</p>
+                        </div>
+                        <div class="text-right whitespace-nowrap">
+                            <span class="font-bold text-sm ${color}">${parseInt(t.amt).toLocaleString()}</span>
+                            ${balHtml}
+                        </div>
+                    </div>`;
+                });
+            }
+            html += `</div>`;
+            el.innerHTML = html;
         }
+
         function openSettings() { openModal('settings'); }
         function openOnboarding() { document.getElementById('modal-onboarding').classList.add('active'); }
         function finishOnboarding() { const n=document.getElementById('setupName').value; if(n){appData.userName=n; saveData(); document.getElementById('modal-onboarding').classList.remove('active'); updateWelcome();} }
         function updateWelcome() { document.getElementById('welcomeUser').innerText = "Hello, "+appData.userName; }
         function changeName() { const n=prompt("Name:",appData.userName); if(n){appData.userName=n;saveData();updateWelcome();closeModal();} }
-        function openAccountLedger(type) { openModal('account-ledger'); document.getElementById('accLedgerTitle').innerText=(type==='CASH'?"Cash":"Bank")+" Ledger"; document.getElementById('accLedgerBalance').innerText=(type==='CASH'?appData.cash:appData.bank).toLocaleString(); const tb=document.getElementById('accLedgerBody'); tb.innerHTML=''; appData.trans.filter(t=>(type==='BANK'?t.source==='BANK':t.source!=='BANK')).reverse().forEach(t=>{ let amt=parseInt(t.amt), c="text-green-600", s="+"; if(['EXPENSE','TRANSFER_OUT','DEBIT','SPLIT_MAIN','ACC_SENT','TRF_DEP', 'PAID_FOR'].includes(t.type) || (type==='BANK'&&t.type==='TRF_WDL')) { amt=-amt; c="text-red-500"; s=""; } tb.innerHTML+=`<tr><td class="p-4 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date}</div></td><td class="p-4 border-b text-right font-mono font-bold ${c}">${s}${Math.abs(amt)}</td></tr>`; }); }
+        
+        function openAccountLedger(type) { 
+            openModal('account-ledger'); 
+            document.getElementById('accLedgerTitle').innerText=(type==='CASH'?"Cash":"Bank")+" Ledger"; 
+            document.getElementById('accLedgerBalance').innerText=(type==='CASH'?appData.cash:appData.bank).toLocaleString(); 
+            // Use Timeline to get running balances
+            const arr = getTimeline(type, null);
+            renderTransList(arr, 'accLedgerList'); 
+        }
+
         function openAllFriendsModal() { openModal('all-friends'); document.getElementById('allFriendsList').innerHTML=Object.entries(appData.people).map(([n,b])=>`<div onclick="openLedger('${n}')" class="flex justify-between p-4 border rounded-xl mb-2"><span class="font-bold">${n}</span><span class="font-bold ${b>=0?'text-green-600':'text-red-500'}">${Math.abs(b)}</span></div>`).join(''); }
-        function showAllHistory() { openModal('history'); renderHistoryPagination(); }
-        function showWeekDetails() { openModal('week'); renderTransList([...appData.trans].reverse().filter(t => !t.weekReset && (t.type==='EXPENSE' || t.type==='SPLIT_SHARE' || t.type==='PAID_BY')), 'weekDetailList'); }
-        function openLedger(name) { openModal('ledger'); document.getElementById('ledgerName').innerText=name; const tb=document.getElementById('ledgerTableBody'); tb.innerHTML=''; appData.trans.filter(t=>t.person===name).reverse().forEach(t=>{ let d='', c=''; if(['DEBIT','ACC_SENT','TRANSFER_OUT','SPLIT_DEBIT', 'PAID_FOR'].includes(t.type)) d=t.amt; if(['RECEIVED','ACC_RECV','TRANSFER_IN', 'PAID_BY'].includes(t.type)) c=t.amt; if(t.type==='EXPENSE') d=t.amt; if(d||c) tb.innerHTML+=`<tr><td class="p-4 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date}</div></td><td class="p-4 border-b text-right text-red-500 font-bold">${d}</td><td class="p-4 border-b text-right text-green-600 font-bold">${c}</td></tr>`; }); document.getElementById('ledgerTotal').innerText=Math.abs(appData.people[name]); }
+        
+        function showAllHistory() { 
+            historyPage = 0;
+            openModal('history');
+            renderHistoryPagination();
+        }
+
+        function renderHistoryPagination() {
+            const all = [...appData.trans].reverse();
+            const start = historyPage * ITEMS_PER_PAGE;
+            const paged = all.slice(start, start + ITEMS_PER_PAGE);
+            renderTransList(paged, 'fullHistoryList'); // No running balance in general history as context is mixed
+
+            document.getElementById('btnPrevHistory').disabled = historyPage === 0;
+            document.getElementById('btnNextHistory').disabled = (start + ITEMS_PER_PAGE) >= all.length;
+            document.getElementById('historyPageIndicator').innerText = `Page ${historyPage + 1}`;
+        }
+
+        function changeHistoryPage(d) {
+            historyPage += d;
+            renderHistoryPagination();
+            document.getElementById('fullHistoryList').scrollTop = 0;
+        }
+
+        function showWeekDetails() { 
+            openModal('week'); 
+            const arr = [...appData.trans].reverse().filter(t => !t.weekReset && (t.type==='EXPENSE' || t.type==='SPLIT_SHARE' || t.type==='PAID_BY'));
+            renderTransList(arr, 'weekDetailList'); 
+        }
+
+        function openLedger(name) { 
+            openModal('ledger'); 
+            document.getElementById('ledgerName').innerText=name; 
+            // Use Timeline for Friend
+            const arr = getTimeline('FRIEND', name);
+            renderTransList(arr, 'ledgerList'); 
+            document.getElementById('ledgerTotal').innerText=Math.abs(appData.people[name]); 
+        }
+
         function openEditFriends() { openModal('edit-friends'); const l=document.getElementById('editFriendsList'); l.innerHTML=''; Object.keys(appData.people).forEach(p=>{ l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${p}</span><div class="flex gap-2"><button onclick="renameFriend('${p}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${p}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; }); }
         function addPerson() { const n=document.getElementById('newPersonName').value; if(n){ appData.people[n]=0; saveData(); document.getElementById('newPersonName').value=''; alert("Added!"); } }
         function renameFriend(o) { const n=prompt("New Name:",o); if(n&&n!==o){appData.people[n]=appData.people[o]; delete appData.people[o]; appData.trans.forEach(t=>{if(t.person===o)t.person=n}); saveData(); openEditFriends();} }
@@ -391,31 +538,6 @@
         function resetApp() { if(confirm("Start Fresh? ALL DATA WILL BE LOST.")) { localStorage.removeItem(STORAGE_KEY); location.reload(); } }
         function downloadData() { const a = document.createElement("a"); a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData)); a.download = "splitify_backup.json"; a.click(); }
         function importData(input) { const r = new FileReader(); r.onload = (e) => { try { appData = JSON.parse(e.target.result); saveData(); alert("Data Restored!"); closeModal(); } catch(err) { alert("Invalid File"); } }; r.readAsText(input.files[0]); }
-        
-        // --- HISTORY PAGINATION ---
-        function showAllHistory() {
-            historyPage = 0;
-            openModal('history');
-            renderHistoryPagination();
-        }
-
-        function renderHistoryPagination() {
-            const all = [...appData.trans].reverse();
-            const start = historyPage * ITEMS_PER_PAGE;
-            const paged = all.slice(start, start + ITEMS_PER_PAGE);
-            renderTransList(paged, 'fullHistoryList');
-
-            // Update Buttons
-            document.getElementById('btnPrevHistory').disabled = historyPage === 0;
-            document.getElementById('btnNextHistory').disabled = (start + ITEMS_PER_PAGE) >= all.length;
-            document.getElementById('historyPageIndicator').innerText = `Page ${historyPage + 1}`;
-        }
-
-        function changeHistoryPage(d) {
-            historyPage += d;
-            renderHistoryPagination();
-            document.getElementById('fullHistoryList').scrollTop = 0;
-        }
     </script>
 </body>
 </html>
