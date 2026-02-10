@@ -83,7 +83,7 @@
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.6</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.7</span></p>
         </div>
     </div>
 
@@ -162,14 +162,27 @@
     <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 id="accLedgerTitle" class="font-bold text-lg">Account Ledger</h3><div class="w-10"></div></div><div id="accLedgerHeader" class="p-6 bg-blue-600 text-white"><p class="text-blue-200 text-xs font-bold uppercase tracking-wider">Current Balance</p><p class="text-3xl font-extrabold mt-1" id="accLedgerBalance">0</p></div><div class="flex-1 overflow-y-auto bg-slate-50"><table class="w-full text-left text-sm border-collapse"><tbody id="accLedgerBody" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
     <div id="modal-all-friends" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Friends</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="allFriendsList"></div></div>
     <div id="modal-history" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Transactions</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="fullHistoryList"></div></div>
-    <div id="modal-week" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">Week Details</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="weekDetailList"></div></div>
+    
+    <!-- Week Detail Modal with Reset Button -->
+    <div id="modal-week" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
+            <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
+            <h3 class="font-bold text-lg">Week Details</h3>
+            <div class="w-10"></div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="weekDetailList"></div>
+        <div class="p-4 border-t bg-white safe-pb">
+            <button onclick="resetWeekExpensesOnly()" class="w-full py-3 bg-red-50 text-red-600 font-bold rounded-xl active:bg-red-100 transition">Start New Week</button>
+        </div>
+    </div>
+    
     <div id="modal-addPerson" class="modal-overlay fixed inset-0 bg-black/60 z-[80] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-1 text-slate-800">New Friend</h3><input type="text" id="newPersonName" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold text-lg outline-none focus:border-blue-500 transition mb-6" placeholder="Name"><div class="flex gap-3"><button onclick="closeModal()" class="flex-1 py-3 text-slate-500 font-bold rounded-xl hover:bg-slate-50">Done</button><button onclick="addPerson()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition">Add</button></div></div></div>
     <div id="modal-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 id="ledgerName" class="font-bold text-lg">Details</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50"><table class="w-full text-left text-sm border-collapse"><tbody id="ledgerTableBody" class="divide-y divide-slate-100 bg-white"></tbody></table></div><div class="p-6 border-t bg-white safe-pb"><div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Net Balance</span><span id="ledgerTotal" class="text-2xl font-extrabold">0</span></div></div></div>
     <div id="modal-reset-opts" class="modal-overlay fixed inset-0 bg-black/60 z-[80] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-lg mb-4 text-slate-800">What to reset?</h3><div class="space-y-2"><button onclick="resetWeekExpensesOnly()" class="w-full p-3 bg-blue-50 text-blue-700 rounded-xl font-bold">Reset Expenses Only</button><button onclick="resetBalance('CASH')" class="w-full p-3 bg-slate-50 text-slate-700 rounded-xl font-bold">Reset Cash to 0</button><button onclick="resetBalance('BANK')" class="w-full p-3 bg-slate-50 text-slate-700 rounded-xl font-bold">Reset Bank to 0</button></div><button onclick="closeModal()" class="w-full py-3 mt-2 text-slate-400 font-bold">Cancel</button></div></div>
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '8.6'; 
+        const APP_VERSION = '8.7'; 
         const STORAGE_KEY = 'splitifyData_v8';
         let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
@@ -261,8 +274,8 @@
             if(currentFormType === 'expense') {
                 title.innerText = "Add Expense";
                 const srcSel = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid From</label><div class="flex p-1 bg-slate-100 rounded-xl mt-1"><button onclick="setSource('CASH',this)" class="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600">Cash</button><button onclick="setSource('BANK',this)" class="flex-1 py-3 font-bold rounded-lg text-slate-400">Bank</button></div><input type=\"hidden\" id=\"inpSource\" value=\"CASH\"></div>`;
-                const paidFor = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid For</label><select id="inpPerson" class="w-full p-4 bg-slate-50 border rounded-2xl font-bold mt-1"><option value="Self">Myself</option>${pOpts}</select></div>`;
-                content.innerHTML = srcSel + paidFor + amtInput + descInput;
+                // REMOVED Paid For selection as per request
+                content.innerHTML = srcSel + amtInput + descInput;
             } 
             else if(currentFormType === 'paid_for') {
                 title.innerText = "Paid For";
@@ -298,7 +311,7 @@
 
             if(currentFormType === 'expense') { 
                 const source = document.getElementById('inpSource').value; 
-                const person = document.getElementById('inpPerson').value; 
+                const person = 'Self'; // Forced to Self
                 appData.trans.push({ date, type: 'EXPENSE', amt, desc, person, source }); 
             }
             else if(currentFormType === 'paid_for') {
