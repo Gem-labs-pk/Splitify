@@ -9,7 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; -webkit-tap-highlight-color: transparent; }
@@ -21,11 +20,6 @@
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-
-        .tag-card { transition: all 0.2s; border: 2px solid transparent; }
-        .tag-card.selected { border-color: #2563eb; background-color: #eff6ff; }
-        .tag-card.selected .check-circle { background-color: #2563eb; border-color: #2563eb; }
-        .tag-card.selected .check-circle i { opacity: 1; }
         
         @media print { .no-print { display: none !important; } body { background-color: white; } }
     </style>
@@ -89,7 +83,7 @@
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.2</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.3</span></p>
         </div>
     </div>
 
@@ -135,55 +129,11 @@
         </div>
     </div>
 
-    <!-- TAGS MANAGEMENT MODAL -->
-    <div id="modal-tags" class="modal-overlay fixed inset-0 bg-white z-[70] flex flex-col">
-        <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
-            <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
-            <h3 class="font-bold text-lg">Manage Tags</h3>
-            <button onclick="addNewTag()" class="text-blue-600 font-bold text-sm">+ New</button>
-        </div>
-        <div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="tagsListContainer"></div>
-    </div>
-
-    <!-- REPORT MODAL -->
-    <div id="modal-report" class="modal-overlay fixed inset-0 bg-white flex flex-col z-[60]">
-        <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
-            <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
-            <h3 class="font-bold text-lg">Expense Analytics</h3>
-            <div class="w-10"></div>
-        </div>
-        <div class="p-6 space-y-4 bg-slate-50 flex-1 overflow-y-auto">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="date" id="repFrom" class="w-full p-3 rounded-xl border border-slate-200 mt-1">
-                <input type="date" id="repTo" class="w-full p-3 rounded-xl border border-slate-200 mt-1">
-            </div>
-            <div class="flex gap-2">
-                <button onclick="setRepDate('week')" class="flex-1 py-2 bg-white border rounded-lg text-xs font-bold text-slate-500">This Week</button>
-                <button onclick="setRepDate('month')" class="flex-1 py-2 bg-white border rounded-lg text-xs font-bold text-slate-500">This Month</button>
-            </div>
-            <button onclick="generateReport()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg">Generate Analysis</button>
-            
-            <div id="reportOutput" class="hidden space-y-4 mt-4">
-                <div id="chartError" class="hidden p-4 bg-red-50 text-red-600 rounded-xl text-center text-sm">Graph unavailable offline</div>
-                <div class="bg-white p-4 rounded-xl shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-4 text-center">Expense by Category</h4>
-                    <div style="max-height: 250px; display: flex; justify-content: center;">
-                        <canvas id="expenseChart"></canvas>
-                    </div>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-2">Details</h4>
-                    <table class="w-full text-sm text-left"><tbody id="repBody" class="divide-y"></tbody><tfoot><tr><td class="pt-2 font-bold">Total</td><td class="pt-2 text-right font-bold text-red-500" id="repTotal">0</td></tr></tfoot></table>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- SETTINGS & OTHER MODALS -->
-    <div id="modal-settings" class="modal-overlay fixed inset-0 bg-black/60 z-[70] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-6 text-slate-800">Settings</h3><div class="space-y-3"><button onclick="changeName()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-id-card text-blue-500"></i> Change Name</button><button onclick="openTagsManager()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-tags text-pink-500"></i> Manage Tags</button><button onclick="openEditFriends()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-user-group text-purple-500"></i> Edit Friends</button><button onclick="downloadData()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-download text-slate-500"></i> Backup Data</button><label class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition cursor-pointer"><i class="fa-solid fa-upload text-slate-500"></i> Restore Data<input type="file" class="hidden" onchange="importData(this)" accept=".json"></label><button onclick="showResetOptions()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-calendar-week text-orange-500"></i> Start New Week</button><button onclick="resetApp()" class="w-full p-4 bg-red-50 rounded-xl font-bold text-red-600 flex items-center gap-3 hover:bg-red-100 transition mt-4"><i class="fa-solid fa-trash"></i> Reset All Data</button></div><button onclick="closeModal()" class="w-full py-4 mt-4 text-slate-400 font-bold">Close</button></div></div>
-    <div id="modal-menu" class="modal-overlay fixed inset-0 bg-black/60 flex flex-col justify-end backdrop-blur-sm" onclick="if(event.target===this) closeModal()"><div class="modal-content bg-white w-full rounded-t-[2rem] p-6 pb-safe shadow-2xl"><div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div><div class="grid grid-cols-2 gap-4 mb-4"><button onclick="openForm('cash_transfer')" class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100 flex flex-col items-center gap-3 active:scale-95 transition"><i class="fa-solid fa-money-bill-transfer text-2xl text-emerald-600"></i><span class="font-bold text-emerald-800">Cash Transfer</span></button><button onclick="openForm('bank_transfer')" class="p-5 bg-blue-50 rounded-2xl border border-blue-100 flex flex-col items-center gap-3 active:scale-95 transition"><i class="fa-solid fa-building-columns text-2xl text-blue-600"></i><span class="font-bold text-blue-800">Bank Transfer</span></button></div><button onclick="openReportModal()" class="w-full p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-center gap-3 font-bold text-slate-700 active:scale-95 transition"><i class="fa-solid fa-chart-pie text-purple-500"></i> Analytics & Reports</button></div></div>
+    <div id="modal-settings" class="modal-overlay fixed inset-0 bg-black/60 z-[70] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-6 text-slate-800">Settings</h3><div class="space-y-3"><button onclick="changeName()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-id-card text-blue-500"></i> Change Name</button><button onclick="openEditFriends()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-user-group text-purple-500"></i> Edit Friends</button><button onclick="downloadData()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-download text-slate-500"></i> Backup Data</button><label class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition cursor-pointer"><i class="fa-solid fa-upload text-slate-500"></i> Restore Data<input type="file" class="hidden" onchange="importData(this)" accept=".json"></label><button onclick="showResetOptions()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-calendar-week text-orange-500"></i> Start New Week</button><button onclick="resetApp()" class="w-full p-4 bg-red-50 rounded-xl font-bold text-red-600 flex items-center gap-3 hover:bg-red-100 transition mt-4"><i class="fa-solid fa-trash"></i> Reset All Data</button></div><button onclick="closeModal()" class="w-full py-4 mt-4 text-slate-400 font-bold">Close</button></div></div>
+    <div id="modal-menu" class="modal-overlay fixed inset-0 bg-black/60 flex flex-col justify-end backdrop-blur-sm" onclick="if(event.target===this) closeModal()"><div class="modal-content bg-white w-full rounded-t-[2rem] p-6 pb-safe shadow-2xl"><div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div><div class="grid grid-cols-2 gap-4 mb-4"><button onclick="openForm('cash_transfer')" class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100 flex flex-col items-center gap-3 active:scale-95 transition"><i class="fa-solid fa-money-bill-transfer text-2xl text-emerald-600"></i><span class="font-bold text-emerald-800">Cash Transfer</span></button><button onclick="openForm('bank_transfer')" class="p-5 bg-blue-50 rounded-2xl border border-blue-100 flex flex-col items-center gap-3 active:scale-95 transition"><i class="fa-solid fa-building-columns text-2xl text-blue-600"></i><span class="font-bold text-blue-800">Bank Transfer</span></button></div></div></div>
     
-    <!-- TAGS & LEDGERS -->
+    <!-- LEDGERS -->
     <div id="modal-edit-friends" class="modal-overlay fixed inset-0 bg-white flex flex-col z-[60]"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">Manage Friends</h3><div class="w-10"></div></div><div class="p-4 bg-white border-b"><button onclick="openModal('addPerson')" class="w-full py-3 bg-blue-50 text-blue-600 font-bold rounded-xl border border-blue-100">+ Add New Friend</button></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="editFriendsList"></div></div>
     <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 id="accLedgerTitle" class="font-bold text-lg">Account Ledger</h3><div class="w-10"></div></div><div id="accLedgerHeader" class="p-6 bg-blue-600 text-white"><p class="text-blue-200 text-xs font-bold uppercase tracking-wider">Current Balance</p><p class="text-3xl font-extrabold mt-1" id="accLedgerBalance">0</p></div><div class="flex-1 overflow-y-auto bg-slate-50"><table class="w-full text-left text-sm border-collapse"><tbody id="accLedgerBody" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
     <div id="modal-all-friends" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Friends</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="allFriendsList"></div></div>
@@ -195,12 +145,10 @@
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '8.2'; 
+        const APP_VERSION = '8.3'; 
         const STORAGE_KEY = 'splitifyData_v8';
-        let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], tags: ['Food', 'Transport', 'Bills'], userName: 'User' };
+        let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
-        let chartInstance = null;
-        let selectedTag = '';
 
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js')); }
 
@@ -208,21 +156,12 @@
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) { 
                 appData = JSON.parse(saved); 
-                // Migration to simple tags if old structure exists
-                if(appData.tags && !Array.isArray(appData.tags)) {
-                    // Flatten old object tags to array
-                    let newTags = [];
-                    Object.keys(appData.tags).forEach(k => {
-                        newTags.push(k);
-                        if(Array.isArray(appData.tags[k])) newTags.push(...appData.tags[k]);
-                    });
-                    appData.tags = [...new Set(newTags)]; // Unique
-                }
-                if(!appData.tags || !Array.isArray(appData.tags)) appData.tags = ['Food', 'Transport', 'Bills'];
+                // Remove legacy tags from memory if they exist in old backups
+                if(appData.tags) delete appData.tags;
             } 
             else { 
                 const old = localStorage.getItem('splitifyData_v7_1'); 
-                if(old) { appData = JSON.parse(old); appData.tags = ['Food', 'Transport', 'Bills']; saveData(); } 
+                if(old) { appData = JSON.parse(old); delete appData.tags; saveData(); } 
                 else openOnboarding(); 
             }
             recalculate(); updateWelcome();
@@ -249,11 +188,6 @@
                 else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=parseInt(t.tax||0); }
                 else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=parseInt(t.tax||0); }
                 
-                // FIXED SPLIT LOGIC:
-                // SPLIT_MAIN: Deducts total cash paid. 
-                // SPLIT_SHARE: Just tracking expense statistic (Virtual).
-                // SPLIT_DEBIT: Increases friend debt (Virtual).
-                // No money is added back to cash/bank here.
                 else if(t.type==='SPLIT_MAIN') { if(isBank) b-=amt; else c-=amt; }
                 else if(t.type==='SPLIT_SHARE') { if(isCur) w+=amt; }
                 else if(t.type==='SPLIT_DEBIT') { if(p) pBal[p]+=amt; }
@@ -279,41 +213,8 @@
             renderTransList([...appData.trans].reverse().slice(0,3), 'transList');
         }
 
-        // --- TAG SYSTEM UI (Simplified) ---
-        function renderTagSelectionList(containerId) {
-            const container = document.getElementById(containerId);
-            let html = `<div><input type="text" placeholder="Search Tags..." class="w-full p-2 text-sm border rounded-lg mb-2" onkeyup="filterTags(this)"></div><div class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto" id="tagGrid">`;
-            appData.tags.forEach(t => {
-                html += `<div onclick="selectTagUI(this, '${t}')" class="tag-card flex items-center justify-between p-3 border rounded-xl bg-white cursor-pointer" data-tag="${t.toLowerCase()}"><span class="font-bold text-sm">${t}</span><div class="check-circle w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center"><i class="fa-solid fa-check text-white text-[10px] opacity-0 transition"></i></div></div>`;
-            });
-            container.innerHTML = html + '</div>';
-        }
-
-        function selectTagUI(el, val) {
-            document.querySelectorAll('.tag-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedTag = val;
-        }
-
-        function filterTags(input) {
-            const filter = input.value.toLowerCase();
-            document.querySelectorAll('.tag-card').forEach(el => {
-                el.style.display = el.getAttribute('data-tag').includes(filter) ? 'flex' : 'none';
-            });
-        }
-
-        function openTagsManager() { openModal('tags'); renderTagsManagerList(); }
-        function renderTagsManagerList() {
-            const el = document.getElementById('tagsListContainer'); el.innerHTML = '';
-            appData.tags.forEach(t => {
-                el.innerHTML += `<div class="flex justify-between items-center p-3 bg-white border rounded-xl mb-2"><span class="font-bold">${t}</span><button onclick="deleteTag('${t}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div>`;
-            });
-        }
-        function addNewTag() { const n = prompt("Tag Name:"); if(n && !appData.tags.includes(n)) { appData.tags.push(n); saveData(); renderTagsManagerList(); } }
-        function deleteTag(t) { if(confirm("Delete tag: "+t+"?")) { appData.tags = appData.tags.filter(tag => tag !== t); saveData(); renderTagsManagerList(); } }
-
         // --- FORMS ---
-        function openForm(type) { currentFormType=type; editTransIndex=-1; selectedTag=''; openModal('form'); renderFormContent(); }
+        function openForm(type) { currentFormType=type; editTransIndex=-1; openModal('form'); renderFormContent(); }
         function renderFormContent() {
             const content = document.getElementById('formContent');
             const title = document.getElementById('formTitle');
@@ -325,16 +226,14 @@
                 title.innerText = "Add Expense";
                 const srcSel = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid From</label><div class="flex p-1 bg-slate-100 rounded-xl mt-1"><button onclick="setSource('CASH',this)" class="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600">Cash</button><button onclick="setSource('BANK',this)" class="flex-1 py-3 font-bold rounded-lg text-slate-400">Bank</button></div><input type=\"hidden\" id=\"inpSource\" value=\"CASH\"></div>`;
                 const paidFor = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid For</label><select id="inpPerson" class="w-full p-4 bg-slate-50 border rounded-2xl font-bold mt-1"><option value="Self">Myself</option>${pOpts}</select></div>`;
-                content.innerHTML = srcSel + paidFor + `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Select Tag</label><div id="tagContainer"></div></div>` + amtInput + descInput;
-                renderTagSelectionList('tagContainer');
+                content.innerHTML = srcSel + paidFor + amtInput + descInput;
             } else if(currentFormType==='split') {
                 title.innerText = "Split Bill";
                 let checks = `<div class="grid grid-cols-2 gap-3 mt-4 overflow-y-auto max-h-40">`; 
                 Object.keys(appData.people).sort().forEach(p => checks += `<label class="flex items-center gap-3 p-3 border rounded-xl bg-slate-50 has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500"><input type="checkbox" class="w-5 h-5 accent-blue-600 rounded split-check" value="${p}"><span class="font-bold text-sm">${p}</span></label>`);
                 checks += `</div>`;
                 const srcSel = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid From</label><div class="flex p-1 bg-slate-100 rounded-xl mt-1"><button onclick="setSource('CASH',this)" class="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600">Cash</button><button onclick="setSource('BANK',this)" class="flex-1 py-3 font-bold rounded-lg text-slate-400">Bank</button></div><input type=\"hidden\" id=\"inpSource\" value=\"CASH\"></div>`;
-                content.innerHTML = srcSel + `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Select Tag</label><div id="tagContainer"></div></div>` + amtInput + descInput + `<div><label class="text-xs font-bold text-slate-400 uppercase ml-1 mt-4 block">Split With</label>${checks}</div>`;
-                renderTagSelectionList('tagContainer');
+                content.innerHTML = srcSel + amtInput + descInput + `<div><label class="text-xs font-bold text-slate-400 uppercase ml-1 mt-4 block">Split With</label>${checks}</div>`;
             } else {
                 title.innerText = currentFormType.replace('_',' ').toUpperCase();
                 const personSelect = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Person</label><select id="inpPerson" class="w-full p-4 bg-slate-50 border rounded-2xl font-bold mt-1 outline-none"><option value="Self">Self / Home</option>${pOpts}</select></div>`;
@@ -352,7 +251,7 @@
             if(currentFormType === 'expense') { 
                 const source = document.getElementById('inpSource').value; 
                 const person = document.getElementById('inpPerson').value; 
-                appData.trans.push({ date, type: 'EXPENSE', amt, desc, person, source, tag: selectedTag }); 
+                appData.trans.push({ date, type: 'EXPENSE', amt, desc, person, source }); 
             }
             else if(currentFormType === 'split') {
                 const source = document.getElementById('inpSource').value; 
@@ -360,13 +259,9 @@
                 if(!friends.length) return alert("Select friends");
                 const share = Math.round(amt / (friends.length + 1));
                 
-                // IMPORTANT FIX: SPLIT LOGIC
-                // 1. Deduct total from source (Wallet)
-                appData.trans.push({ date, type: 'SPLIT_MAIN', amt, desc: desc+" (Total)", person: 'Self', source, tag: selectedTag });
-                // 2. Add My Share to stats (Virtual)
-                appData.trans.push({ date, type: 'SPLIT_SHARE', amt: share, desc: desc+" (My Share)", person: 'Self', tag: selectedTag });
-                // 3. Add Friend Debt (Virtual)
-                friends.forEach(p => appData.trans.push({ date, type: 'SPLIT_DEBIT', amt: share, desc, person: p, tag: selectedTag }));
+                appData.trans.push({ date, type: 'SPLIT_MAIN', amt, desc: desc+" (Total)", person: 'Self', source });
+                appData.trans.push({ date, type: 'SPLIT_SHARE', amt: share, desc: desc+" (My Share)", person: 'Self' });
+                friends.forEach(p => appData.trans.push({ date, type: 'SPLIT_DEBIT', amt: share, desc, person: p }));
             }
             else { // Transfers
                 const mode = document.getElementById('transferMode').value;
@@ -378,46 +273,6 @@
             saveData(); closeModal();
         }
 
-        // --- NEW REPORTS WITH GRAPHS ---
-        function generateReport() {
-            const from = new Date(document.getElementById('repFrom').value);
-            const to = new Date(document.getElementById('repTo').value);
-            to.setHours(23,59,59);
-            
-            document.getElementById('reportOutput').classList.remove('hidden');
-            const tbody = document.getElementById('repBody'); tbody.innerHTML = '';
-            let total = 0, tagData = {};
-
-            const filtered = appData.trans.filter(t => {
-                const dParts = t.date.split(' '); const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; const tDate = new Date(new Date().getFullYear(), months[dParts[1]], parseInt(dParts[0]));
-                return (tDate >= from && tDate <= to) && (t.type === 'EXPENSE' || t.type === 'SPLIT_SHARE');
-            });
-
-            filtered.forEach(t => {
-                total += parseInt(t.amt);
-                let mainTag = t.tag ? t.tag : 'Uncategorized'; // Simplified
-                if(!tagData[mainTag]) tagData[mainTag] = 0; tagData[mainTag] += parseInt(t.amt);
-                tbody.innerHTML += `<tr><td class="py-2 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date} ${t.tag ? '• '+t.tag : ''}</div></td><td class="py-2 border-b text-right font-mono">${t.amt}</td></tr>`;
-            });
-            document.getElementById('repTotal').innerText = total.toLocaleString();
-
-            if(typeof Chart === 'undefined') {
-                document.getElementById('chartError').classList.remove('hidden');
-            } else {
-                document.getElementById('chartError').classList.add('hidden');
-                const ctx = document.getElementById('expenseChart').getContext('2d');
-                if(chartInstance) chartInstance.destroy();
-                chartInstance = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: Object.keys(tagData),
-                        datasets: [{ data: Object.values(tagData), backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#6366f1'] }]
-                    },
-                    options: { plugins: { legend: { position: 'bottom' } } }
-                });
-            }
-        }
-
         // --- UTILS ---
         function renderTransList(arr, elId) {
             const el = document.getElementById(elId); el.innerHTML = '';
@@ -427,8 +282,8 @@
                 if(t.type.includes('EXPENSE')) { icon='fa-arrow-trend-down'; color='bg-red-100 text-red-500'; }
                 else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { icon='fa-arrow-down'; color='bg-green-100 text-green-500'; }
                 else if(['DEBIT','ACC_SENT','TRANSFER_OUT'].includes(t.type)) { icon='fa-arrow-up'; color='bg-orange-100 text-orange-500'; }
-                let tagBadge = t.tag ? `<span class="text-[9px] bg-slate-200 px-1 rounded ml-1 text-slate-600">${t.tag}</span>` : '';
-                el.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm"><div class="flex items-center gap-3 overflow-hidden"><div class="w-10 h-10 rounded-full ${color} flex items-center justify-center shrink-0"><i class="fa-solid ${icon}"></i></div><div class="min-w-0"><p class="font-bold text-slate-700 truncate text-sm flex items-center">${t.desc} ${tagBadge}</p><p class="text-[10px] text-slate-400 font-bold uppercase">${t.date} • ${t.person||'Self'}</p></div></div><div class="flex items-center gap-2 pl-2"><span class="font-bold text-slate-800">${parseInt(t.amt).toLocaleString()}</span><button onclick="if(confirm('Delete?')){appData.trans.splice(${realIndex},1);saveData();renderUI();}" class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash text-xs"></i></button></div></div>`;
+                
+                el.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm"><div class="flex items-center gap-3 overflow-hidden"><div class="w-10 h-10 rounded-full ${color} flex items-center justify-center shrink-0"><i class="fa-solid ${icon}"></i></div><div class="min-w-0"><p class="font-bold text-slate-700 truncate text-sm flex items-center">${t.desc}</p><p class="text-[10px] text-slate-400 font-bold uppercase">${t.date} • ${t.person||'Self'}</p></div></div><div class="flex items-center gap-2 pl-2"><span class="font-bold text-slate-800">${parseInt(t.amt).toLocaleString()}</span><button onclick="if(confirm('Delete?')){appData.trans.splice(${realIndex},1);saveData();renderUI();}" class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-red-600"><i class="fa-solid fa-trash text-xs"></i></button></div></div>`;
             });
         }
         function openSettings() { openModal('settings'); }
@@ -445,10 +300,8 @@
         function addPerson() { const n=document.getElementById('newPersonName').value; if(n){ appData.people[n]=0; saveData(); document.getElementById('newPersonName').value=''; alert("Added!"); } }
         function renameFriend(o) { const n=prompt("New Name:",o); if(n&&n!==o){appData.people[n]=appData.people[o]; delete appData.people[o]; appData.trans.forEach(t=>{if(t.person===o)t.person=n}); saveData(); openEditFriends();} }
         function deleteFriend(n) { if(confirm("Delete "+n+"?")) { delete appData.people[n]; appData.trans=appData.trans.filter(t=>t.person!==n); saveData(); openEditFriends(); } }
-        function setRepDate(r) { const d=new Date(), t=d.toISOString().split('T')[0]; if(r==='week'){const w=d.getDate()-d.getDay()+(d.getDay()===0?-6:1); d.setDate(w);} else d.setDate(1); document.getElementById('repFrom').value=d.toISOString().split('T')[0]; document.getElementById('repTo').value=t; }
         window.setSource=(v,b)=>{document.getElementById('inpSource').value=v; b.parentElement.querySelectorAll('button').forEach(x=>x.className="flex-1 py-3 font-bold rounded-lg text-slate-400"); b.className="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600";}
         window.setTransferMode=(m)=>{document.getElementById('transferMode').value=m; if(m==='GIVE'){document.getElementById('btnGive').className="bg-red-50 text-red-600 py-2 rounded-lg font-bold border border-red-100";document.getElementById('btnRec').className="text-slate-400 py-2 rounded-lg font-bold";}else{document.getElementById('btnRec').className="bg-green-50 text-green-600 py-2 rounded-lg font-bold border border-green-100";document.getElementById('btnGive').className="text-slate-400 py-2 rounded-lg font-bold";}}
-        function openReportModal() { openModal('report'); setRepDate('month'); }
         function showResetOptions() { openModal('reset-opts'); }
         function resetWeekExpensesOnly() { if(confirm('Reset Week Expense Counter to 0?')) { appData.trans.forEach(t => { if(['EXPENSE','SPLIT_SHARE'].includes(t.type)) t.weekReset = true; }); saveData(); closeModal(); } }
         function resetBalance(target) { const currentBal = target === 'CASH' ? appData.cash : appData.bank; if(currentBal === 0) return alert("Balance is already 0."); const date = new Date().toLocaleDateString('en-GB', {day: 'numeric', month: 'short'}); const mode = currentBal > 0 ? 'OUT' : 'IN'; appData.trans.push({ date, type: 'BALANCE_CORRECTION', mode: mode, amt: Math.abs(currentBal), desc: 'Manual Reset', person: 'Self', source: target }); saveData(); closeModal(); alert(`${target} reset to 0.`); }
