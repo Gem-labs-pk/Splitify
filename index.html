@@ -71,22 +71,12 @@
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-slate-50 min-h-[100px]" id="peopleList"></div>
         </div>
 
-        <!-- History Button (Replaced List) -->
-        <button onclick="showAllHistory()" class="w-full py-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between px-6 active:bg-slate-50 transition group">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-active:scale-90 transition"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                <div class="text-left">
-                    <p class="font-bold text-slate-700">Transaction History</p>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase">View All</p>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right text-slate-300"></i>
-        </button>
+        <!-- History Button Removed from here -->
 
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.8</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v8.9</span></p>
         </div>
     </div>
 
@@ -135,7 +125,7 @@
     <!-- SETTINGS & OTHER MODALS -->
     <div id="modal-settings" class="modal-overlay fixed inset-0 bg-black/60 z-[70] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-6 text-slate-800">Settings</h3><div class="space-y-3"><button onclick="changeName()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-id-card text-blue-500"></i> Change Name</button><button onclick="openEditFriends()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-user-group text-purple-500"></i> Edit Friends</button><button onclick="downloadData()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-download text-slate-500"></i> Backup Data</button><label class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition cursor-pointer"><i class="fa-solid fa-upload text-slate-500"></i> Restore Data<input type="file" class="hidden" onchange="importData(this)" accept=".json"></label><button onclick="showResetOptions()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-calendar-week text-orange-500"></i> Start New Week</button><button onclick="resetApp()" class="w-full p-4 bg-red-50 rounded-xl font-bold text-red-600 flex items-center gap-3 hover:bg-red-100 transition mt-4"><i class="fa-solid fa-trash"></i> Reset All Data</button></div><button onclick="closeModal()" class="w-full py-4 mt-4 text-slate-400 font-bold">Close</button></div></div>
     
-    <!-- Updated MENU MODAL -->
+    <!-- Updated MENU MODAL with History Button -->
     <div id="modal-menu" class="modal-overlay fixed inset-0 bg-black/60 flex flex-col justify-end backdrop-blur-sm" onclick="if(event.target===this) closeModal()">
         <div class="modal-content bg-white w-full rounded-t-[2rem] p-6 pb-safe shadow-2xl">
             <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
@@ -155,6 +145,11 @@
                 <button onclick="openForm('paid_by')" class="p-5 bg-teal-50 rounded-2xl border border-teal-100 flex flex-col items-center gap-3 active:scale-95 transition">
                     <i class="fa-solid fa-hand-holding-hand text-2xl text-teal-600"></i>
                     <span class="font-bold text-teal-800 text-[10px] uppercase tracking-wide">Paid By</span>
+                </button>
+                <!-- NEW HISTORY BUTTON -->
+                <button onclick="showAllHistory()" class="col-span-2 p-5 bg-indigo-50 rounded-2xl border border-indigo-100 flex items-center justify-center gap-4 active:scale-95 transition">
+                    <i class="fa-solid fa-clock-rotate-left text-2xl text-indigo-600"></i>
+                    <span class="font-bold text-indigo-800 text-[10px] uppercase tracking-wide">Transaction History</span>
                 </button>
             </div>
         </div>
@@ -199,7 +194,7 @@
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '8.8'; 
+        const APP_VERSION = '8.9'; 
         const STORAGE_KEY = 'splitifyData_v8';
         let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
@@ -380,6 +375,7 @@
         function changeName() { const n=prompt("Name:",appData.userName); if(n){appData.userName=n;saveData();updateWelcome();closeModal();} }
         function openAccountLedger(type) { openModal('account-ledger'); document.getElementById('accLedgerTitle').innerText=(type==='CASH'?"Cash":"Bank")+" Ledger"; document.getElementById('accLedgerBalance').innerText=(type==='CASH'?appData.cash:appData.bank).toLocaleString(); const tb=document.getElementById('accLedgerBody'); tb.innerHTML=''; appData.trans.filter(t=>(type==='BANK'?t.source==='BANK':t.source!=='BANK')).reverse().forEach(t=>{ let amt=parseInt(t.amt), c="text-green-600", s="+"; if(['EXPENSE','TRANSFER_OUT','DEBIT','SPLIT_MAIN','ACC_SENT','TRF_DEP', 'PAID_FOR'].includes(t.type) || (type==='BANK'&&t.type==='TRF_WDL')) { amt=-amt; c="text-red-500"; s=""; } tb.innerHTML+=`<tr><td class="p-4 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date}</div></td><td class="p-4 border-b text-right font-mono font-bold ${c}">${s}${Math.abs(amt)}</td></tr>`; }); }
         function openAllFriendsModal() { openModal('all-friends'); document.getElementById('allFriendsList').innerHTML=Object.entries(appData.people).map(([n,b])=>`<div onclick="openLedger('${n}')" class="flex justify-between p-4 border rounded-xl mb-2"><span class="font-bold">${n}</span><span class="font-bold ${b>=0?'text-green-600':'text-red-500'}">${Math.abs(b)}</span></div>`).join(''); }
+        function showAllHistory() { openModal('history'); renderHistoryPagination(); }
         function showWeekDetails() { openModal('week'); renderTransList([...appData.trans].reverse().filter(t => !t.weekReset && (t.type==='EXPENSE' || t.type==='SPLIT_SHARE' || t.type==='PAID_BY')), 'weekDetailList'); }
         function openLedger(name) { openModal('ledger'); document.getElementById('ledgerName').innerText=name; const tb=document.getElementById('ledgerTableBody'); tb.innerHTML=''; appData.trans.filter(t=>t.person===name).reverse().forEach(t=>{ let d='', c=''; if(['DEBIT','ACC_SENT','TRANSFER_OUT','SPLIT_DEBIT', 'PAID_FOR'].includes(t.type)) d=t.amt; if(['RECEIVED','ACC_RECV','TRANSFER_IN', 'PAID_BY'].includes(t.type)) c=t.amt; if(t.type==='EXPENSE') d=t.amt; if(d||c) tb.innerHTML+=`<tr><td class="p-4 border-b"><div class="font-bold">${t.desc}</div><div class="text-xs text-gray-400">${t.date}</div></td><td class="p-4 border-b text-right text-red-500 font-bold">${d}</td><td class="p-4 border-b text-right text-green-600 font-bold">${c}</td></tr>`; }); document.getElementById('ledgerTotal').innerText=Math.abs(appData.people[name]); }
         function openEditFriends() { openModal('edit-friends'); const l=document.getElementById('editFriendsList'); l.innerHTML=''; Object.keys(appData.people).forEach(p=>{ l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${p}</span><div class="flex gap-2"><button onclick="renameFriend('${p}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${p}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; }); }
