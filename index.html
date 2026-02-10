@@ -12,9 +12,12 @@
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; -webkit-tap-highlight-color: transparent; }
-        .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Safe Area Fixes */
+        .safe-pb, .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .safe-top { padding-top: env(safe-area-inset-top); }
         
         .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 50; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -74,7 +77,7 @@
         <!-- Attribution -->
         <div class="text-center pb-4 pt-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Created By</p>
-            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v9.2</span></p>
+            <p class="text-xs font-bold text-blue-600 mt-1">Saqib Zahid <span class="text-slate-300 mx-1">&</span> Muzammil Mahmood <span class="text-slate-400 ml-1 font-normal opacity-50">v9.4</span></p>
         </div>
     </div>
 
@@ -123,7 +126,7 @@
     <!-- SETTINGS & OTHER MODALS -->
     <div id="modal-settings" class="modal-overlay fixed inset-0 bg-black/60 z-[70] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-6 text-slate-800">Settings</h3><div class="space-y-3"><button onclick="changeName()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-id-card text-blue-500"></i> Change Name</button><button onclick="openEditFriends()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-user-group text-purple-500"></i> Edit Friends</button><button onclick="downloadData()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-download text-slate-500"></i> Backup Data</button><label class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition cursor-pointer"><i class="fa-solid fa-upload text-slate-500"></i> Restore Data<input type="file" class="hidden" onchange="importData(this)" accept=".json"></label><button onclick="showResetOptions()" class="w-full p-4 bg-slate-50 rounded-xl font-bold text-slate-700 flex items-center gap-3 hover:bg-slate-100 transition"><i class="fa-solid fa-calendar-week text-orange-500"></i> Start New Week</button><button onclick="resetApp()" class="w-full p-4 bg-red-50 rounded-xl font-bold text-red-600 flex items-center gap-3 hover:bg-red-100 transition mt-4"><i class="fa-solid fa-trash"></i> Reset All Data</button></div><button onclick="closeModal()" class="w-full py-4 mt-4 text-slate-400 font-bold">Close</button></div></div>
     
-    <!-- Updated MENU MODAL with History Button -->
+    <!-- MENU MODAL -->
     <div id="modal-menu" class="modal-overlay fixed inset-0 bg-black/60 flex flex-col justify-end backdrop-blur-sm" onclick="if(event.target===this) closeModal()">
         <div class="modal-content bg-white w-full rounded-t-[2rem] p-6 pb-safe shadow-2xl">
             <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
@@ -144,7 +147,6 @@
                     <i class="fa-solid fa-hand-holding-hand text-2xl text-teal-600"></i>
                     <span class="font-bold text-teal-800 text-[10px] uppercase tracking-wide">Paid By</span>
                 </button>
-                <!-- NEW HISTORY BUTTON -->
                 <button onclick="showAllHistory()" class="col-span-2 p-5 bg-indigo-50 rounded-2xl border border-indigo-100 flex items-center justify-center gap-4 active:scale-95 transition">
                     <i class="fa-solid fa-clock-rotate-left text-2xl text-indigo-600"></i>
                     <span class="font-bold text-indigo-800 text-[10px] uppercase tracking-wide">Transaction History</span>
@@ -156,7 +158,7 @@
     <!-- LEDGERS -->
     <div id="modal-edit-friends" class="modal-overlay fixed inset-0 bg-white flex flex-col z-[60]"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">Manage Friends</h3><div class="w-10"></div></div><div class="p-4 bg-white border-b"><button onclick="openModal('addPerson')" class="w-full py-3 bg-blue-50 text-blue-600 font-bold rounded-xl border border-blue-100">+ Add New Friend</button></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4" id="editFriendsList"></div></div>
     
-    <!-- ACCOUNT LEDGER (Cash/Bank) - LIST STYLE -->
+    <!-- ACCOUNT LEDGER (Cash/Bank) -->
     <div id="modal-account-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
@@ -172,7 +174,7 @@
 
     <div id="modal-all-friends" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col"><div class="p-4 border-b flex justify-between items-center bg-white safe-top"><button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button><h3 class="font-bold text-lg">All Friends</h3><div class="w-10"></div></div><div class="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-2" id="allFriendsList"></div></div>
     
-    <!-- PAGINATED HISTORY MODAL - LIST STYLE -->
+    <!-- PAGINATED HISTORY MODAL -->
     <div id="modal-history" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
@@ -187,7 +189,7 @@
         </div>
     </div>
     
-    <!-- Week Detail Modal - LIST STYLE -->
+    <!-- Week Detail Modal -->
     <div id="modal-week" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
@@ -202,7 +204,7 @@
     
     <div id="modal-addPerson" class="modal-overlay fixed inset-0 bg-black/60 z-[80] flex items-center justify-center px-6 backdrop-blur-sm"><div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl"><h3 class="font-bold text-xl mb-1 text-slate-800">New Friend</h3><input type="text" id="newPersonName" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold text-lg outline-none focus:border-blue-500 transition mb-6" placeholder="Name"><div class="flex gap-3"><button onclick="closeModal()" class="flex-1 py-3 text-slate-500 font-bold rounded-xl hover:bg-slate-50">Done</button><button onclick="addPerson()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition">Add</button></div></div></div>
     
-    <!-- INDIVIDUAL FRIEND LEDGER - LIST STYLE -->
+    <!-- INDIVIDUAL FRIEND LEDGER -->
     <div id="modal-ledger" class="modal-overlay fixed inset-0 bg-white z-[60] flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-white safe-top">
             <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-arrow-left"></i></button>
@@ -219,11 +221,30 @@
 
     <!-- LOGIC -->
     <script>
-        const APP_VERSION = '9.2'; 
+        const APP_VERSION = '9.4'; 
         const STORAGE_KEY = 'splitifyData_v8';
         let appData = { cash: 0, bank: 0, week: 0, people: {}, trans: [], userName: 'User' };
         let currentFormType = '', editTransIndex = -1;
         let historyPage = 0; const ITEMS_PER_PAGE = 10;
+
+        // Security Utility: For displaying text in HTML
+        function escapeHtml(text) {
+            if (!text) return text;
+            return text.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Security Utility: For passing strings into inline JS handlers
+        function escapeJs(text) {
+            return (text ?? '').toString()
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, "\\'")
+                .replace(/\n/g, '\\n');
+        }
 
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js')); }
 
@@ -231,7 +252,6 @@
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) { 
                 appData = JSON.parse(saved); 
-                // Remove legacy tags from memory if they exist in old backups
                 if(appData.tags) delete appData.tags;
             } 
             else { 
@@ -247,12 +267,12 @@
         function openModal(id) { document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active')); document.getElementById('modal-'+id).classList.add('active'); history.pushState({modal: id}, null, ""); }
         function closeModal() { document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active')); if(history.state && history.state.modal) history.back(); }
 
-        // --- MATH (FIXED SPLIT LOGIC) ---
+        // --- MATH ---
         function recalculate() {
             let c=0, b=0, w=0, pBal={}; 
             for(let k in appData.people) pBal[k]=0;
             appData.trans.forEach(t => {
-                const amt=parseInt(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
+                const amt=Number(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
                 if(p && p!=='Self' && pBal[p]===undefined) pBal[p]=0;
                 
                 if(t.type==='EXPENSE') { if(isBank) b-=amt; else c-=amt; if(isCur) w+=amt; if(p && p!=='Self') pBal[p]+=amt; }
@@ -260,48 +280,37 @@
                 else if(t.type==='TRANSFER_OUT'||t.type==='DEBIT') { if(isBank) b-=amt; else c-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_SENT') { b-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_RECV') { b+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
-                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=parseInt(t.tax||0); }
-                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=parseInt(t.tax||0); }
+                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=Number(t.tax||0); }
+                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=Number(t.tax||0); }
                 
                 else if(t.type==='SPLIT_MAIN') { if(isBank) b-=amt; else c-=amt; }
                 else if(t.type==='SPLIT_SHARE') { if(isCur) w+=amt; }
                 else if(t.type==='SPLIT_DEBIT') { if(p) pBal[p]+=amt; }
                 
                 else if(t.type==='BALANCE_CORRECTION') { if(t.mode==='IN') { if(isBank) b+=amt; else c+=amt; } else { if(isBank) b-=amt; else c-=amt; } }
-                
-                // NEW LOGIC FOR PAID FOR / PAID BY
-                else if(t.type==='PAID_FOR') { 
-                    if(isBank) b-=amt; else c-=amt; // Money leaves wallet
-                    if(p && p!=='Self') pBal[p]+=amt; // Friend owes me (+)
-                    // Note: NOT added to 'w' (My Expense)
-                }
-                else if(t.type==='PAID_BY') { 
-                    if(isCur) w+=amt; // Added to 'w' (My Expense)
-                    if(p && p!=='Self') pBal[p]-=amt; // I owe friend (-)
-                    // Note: Wallet balance 'c'/'b' unchanged
-                }
+                else if(t.type==='PAID_FOR') { if(isBank) b-=amt; else c-=amt; if(p && p!=='Self') pBal[p]+=amt; }
+                else if(t.type==='PAID_BY') { if(isCur) w+=amt; if(p && p!=='Self') pBal[p]-=amt; }
             });
             appData.cash=c; appData.bank=b; appData.week=w; appData.people=pBal; renderUI();
         }
 
-        // --- NEW: Calculate Timeline with Running Balances ---
+        // --- TIMELINE WITH ORIGINAL INDEX ---
         function getTimeline(filterType, filterId) {
             let c=0, b=0, w=0, pBal={};
-            // Ensure people exist
             Object.keys(appData.people).forEach(p => pBal[p]=0);
             
-            const timeline = appData.trans.map(t => {
-                const amt=parseInt(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
+            // Map adds original index '_idx' to each item so deletion works correctly on filtered lists
+            const timeline = appData.trans.map((t, index) => {
+                const amt=Number(t.amt)||0, p=t.person, isBank=t.source==='BANK', isCur=!t.weekReset;
                 if(p && p!=='Self' && pBal[p]===undefined) pBal[p]=0;
                 
-                // Re-apply math logic step-by-step
                 if(t.type==='EXPENSE') { if(isBank) b-=amt; else c-=amt; if(isCur) w+=amt; if(p && p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='TRANSFER_IN'||t.type==='RECEIVED') { if(isBank) b+=amt; else c+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
                 else if(t.type==='TRANSFER_OUT'||t.type==='DEBIT') { if(isBank) b-=amt; else c-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_SENT') { b-=amt; if(p&&p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='ACC_RECV') { b+=amt; if(p&&p!=='Self') pBal[p]-=amt; }
-                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=parseInt(t.tax||0); }
-                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=parseInt(t.tax||0); }
+                else if(t.type==='TRF_WDL') { b-=amt; c+=amt; if(isCur) w+=Number(t.tax||0); }
+                else if(t.type==='TRF_DEP') { c-=amt; b+=amt; if(isCur) w+=Number(t.tax||0); }
                 else if(t.type==='SPLIT_MAIN') { if(isBank) b-=amt; else c-=amt; }
                 else if(t.type==='SPLIT_SHARE') { if(isCur) w+=amt; }
                 else if(t.type==='SPLIT_DEBIT') { if(p) pBal[p]+=amt; }
@@ -309,14 +318,11 @@
                 else if(t.type==='PAID_FOR') { if(isBank) b-=amt; else c-=amt; if(p && p!=='Self') pBal[p]+=amt; }
                 else if(t.type==='PAID_BY') { if(isCur) w+=amt; if(p && p!=='Self') pBal[p]-=amt; }
                 
-                // Capture State & Relevance
                 let bal = 0;
                 let show = false;
                 
                 if(filterType === 'CASH') {
                     bal = c;
-                    // Show if source is CASH (and not just debt adjustment) or movement involving Cash
-                    // Logic from v9.0 filter: (t.source !== 'BANK') generally covers Cash items
                     show = (t.source !== 'BANK');
                 } else if(filterType === 'BANK') {
                     bal = b;
@@ -325,14 +331,35 @@
                     bal = pBal[filterId] || 0;
                     show = (t.person === filterId);
                 } else {
-                    show = true; // General history
+                    show = true; 
                 }
                 
-                return { ...t, _balance: bal, _show: show };
+                return { ...t, _balance: bal, _show: show, _idx: index };
             });
             
             return timeline.filter(x => x._show).reverse();
         }
+
+        // --- GLOBAL DELETE HANDLER ---
+        window.deleteTransaction = (index, person) => {
+            if(confirm('Delete transaction?')){
+                appData.trans.splice(index, 1);
+                saveData();
+                renderUI(); 
+                
+                // Smart Refresh
+                if(document.getElementById('modal-ledger').classList.contains('active')) {
+                    openLedger(person);
+                } else if (document.getElementById('modal-account-ledger').classList.contains('active')) {
+                    const title = document.getElementById('accLedgerTitle').innerText;
+                    openAccountLedger(title.includes('Cash') ? 'CASH' : 'BANK');
+                } else if(document.getElementById('modal-history').classList.contains('active')) {
+                    renderHistoryPagination();
+                } else if(document.getElementById('modal-week').classList.contains('active')) {
+                    showWeekDetails();
+                }
+            }
+        };
 
         // --- UI ---
         function renderUI() {
@@ -346,7 +373,12 @@
             const sorted=[...Object.entries(appData.people).filter(x=>x[1]<0).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])), ...Object.entries(appData.people).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1])];
             
             if(sorted.length===0) list.innerHTML=`<div class="p-8 text-center text-slate-400 font-medium cursor-pointer" onclick="openSettings()">No active friends.<br><span class="text-blue-500 text-xs font-bold mt-2 inline-block"><i class="fa-solid fa-gear"></i> Go to Settings to Add</span></div>`; 
-            else sorted.forEach(([n,b])=>{ const c=b>=0?'text-green-600':'text-red-500', l=b>=0?'OWES YOU':'YOU OWE', bg=b>=0?'bg-green-50 text-green-600':'bg-red-50 text-red-500'; list.innerHTML+=`<div onclick="openLedger('${n}')" class="flex justify-between items-center p-4 hover:bg-slate-50 active:bg-slate-100 transition"><div class="flex items-center gap-4 pointer-events-none"><div class="w-12 h-12 rounded-full ${bg} flex items-center justify-center font-bold shadow-sm">${n[0]}</div><div><p class="font-bold text-slate-800">${n}</p><p class="text-[10px] text-slate-400 font-bold uppercase mt-1">${l}</p></div></div><div class="flex items-center gap-3 pointer-events-none"><p class="font-extrabold ${c}">${Math.abs(b).toLocaleString()}</p><i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i></div></div>`; });
+            else sorted.forEach(([n,b])=>{ 
+                const safeName = escapeHtml(n);
+                const jsName = escapeJs(n);
+                const c=b>=0?'text-green-600':'text-red-500', l=b>=0?'OWES YOU':'YOU OWE', bg=b>=0?'bg-green-50 text-green-600':'bg-red-50 text-red-500'; 
+                list.innerHTML+=`<div onclick="openLedger('${jsName}')" class="flex justify-between items-center p-4 hover:bg-slate-50 active:bg-slate-100 transition"><div class="flex items-center gap-4 pointer-events-none"><div class="w-12 h-12 rounded-full ${bg} flex items-center justify-center font-bold shadow-sm">${safeName[0]}</div><div><p class="font-bold text-slate-800">${safeName}</p><p class="text-[10px] text-slate-400 font-bold uppercase mt-1">${l}</p></div></div><div class="flex items-center gap-3 pointer-events-none"><p class="font-extrabold ${c}">${Math.abs(b).toLocaleString()}</p><i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i></div></div>`; 
+            });
         }
 
         // --- FORMS ---
@@ -354,7 +386,7 @@
         function renderFormContent() {
             const content = document.getElementById('formContent');
             const title = document.getElementById('formTitle');
-            const pOpts = Object.keys(appData.people).map(p=>`<option value="${p}">${p}</option>`).join('');
+            const pOpts = Object.keys(appData.people).map(p=>`<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join('');
             const amtInput = `<div><label class="text-xs font-bold text-slate-400 uppercase ml-1">Amount</label><div class="relative mt-1"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xl">Rs</span><input type="number" id="inpAmt" class="w-full pl-12 pr-4 py-4 bg-slate-50 border rounded-2xl font-bold text-2xl outline-none" placeholder="0"></div></div>`;
             const descInput = `<div class="mt-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Description</label><input type="text" id="inpDesc" class="w-full mt-1 p-4 bg-slate-50 border rounded-2xl font-bold outline-none" placeholder="Details..."></div>`;
 
@@ -377,7 +409,7 @@
             else if(currentFormType==='split') {
                 title.innerText = "Split Bill";
                 let checks = `<div class="grid grid-cols-2 gap-3 mt-4 overflow-y-auto max-h-40">`; 
-                Object.keys(appData.people).sort().forEach(p => checks += `<label class="flex items-center gap-3 p-3 border rounded-xl bg-slate-50 has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500"><input type="checkbox" class="w-5 h-5 accent-blue-600 rounded split-check" value="${p}"><span class="font-bold text-sm">${p}</span></label>`);
+                Object.keys(appData.people).sort().forEach(p => checks += `<label class="flex items-center gap-3 p-3 border rounded-xl bg-slate-50 has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500"><input type="checkbox" class="w-5 h-5 accent-blue-600 rounded split-check" value="${escapeHtml(p)}"><span class="font-bold text-sm">${escapeHtml(p)}</span></label>`);
                 checks += `</div>`;
                 const srcSel = `<div class="mb-4"><label class="text-xs font-bold text-slate-400 uppercase ml-1">Paid From</label><div class="flex p-1 bg-slate-100 rounded-xl mt-1"><button onclick="setSource('CASH',this)" class="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600">Cash</button><button onclick="setSource('BANK',this)" class="flex-1 py-3 font-bold rounded-lg text-slate-400">Bank</button></div><input type=\"hidden\" id=\"inpSource\" value=\"CASH\"></div>`;
                 content.innerHTML = srcSel + amtInput + descInput + `<div><label class="text-xs font-bold text-slate-400 uppercase ml-1 mt-4 block">Split With</label>${checks}</div>`;
@@ -389,9 +421,10 @@
         }
 
         function submitForm() {
-            const amt = parseInt(document.getElementById('inpAmt').value);
+            const amt = Number(document.getElementById('inpAmt').value);
             const desc = document.getElementById('inpDesc').value || 'Transaction';
-            if (!amt) return alert("Please enter amount");
+            if (!Number.isFinite(amt) || amt <= 0) return alert("Please enter valid amount");
+            
             const date = new Date().toLocaleDateString('en-GB', {day: 'numeric', month: 'short'});
             if(editTransIndex !== -1) appData.trans.splice(editTransIndex, 1);
 
@@ -432,35 +465,37 @@
         // --- UTILS ---
         function renderTransList(arr, elId) {
             const el = document.getElementById(elId); 
-            // Create a wrapper container for clean grouping if not present, but since we are replacing innerHTML of existing containers, we build the full HTML string.
-            // We use a clean list style.
             let html = `<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">`;
             
             if (arr.length === 0) {
                 html += `<div class="p-6 text-center text-slate-400 text-sm">No transactions found</div>`;
             } else {
                 arr.forEach((t) => {
-                    const realIndex = appData.trans.indexOf(t);
+                    // Use _idx from timeline if available, otherwise fallback to finding it (riskier but works for unfiltered)
+                    const realIndex = t._idx !== undefined ? t._idx : appData.trans.indexOf(t);
+                    const safePerson = escapeHtml(t.person || '');
+                    const jsPerson = escapeJs(t.person || '');
+                    
                     let color='text-slate-800';
                     if(t.type.includes('EXPENSE') || t.type === 'PAID_BY') { color='text-red-500'; }
                     else if(['RECEIVED','ACC_RECV','TRANSFER_IN'].includes(t.type)) { color='text-green-600'; }
                     else if(['DEBIT','ACC_SENT','TRANSFER_OUT', 'PAID_FOR'].includes(t.type)) { color='text-orange-500'; }
                     
-                    // Running Balance with Color instead of Sign
                     let balHtml = '';
                     if(t._balance !== undefined) {
                         const balColor = t._balance >= 0 ? 'text-green-600' : 'text-red-500';
                         balHtml = `<div class="text-[10px] font-bold mt-1 text-right ${balColor}">Bal: ${Math.abs(t._balance).toLocaleString()}</div>`;
                     }
 
+                    // Using deleteTransaction(index, person) to handle deletion safely
                     html += `
-                    <div class="flex justify-between items-start p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition cursor-pointer" onclick="if(confirm('Delete transaction?')){appData.trans.splice(${realIndex},1);saveData();renderUI();if(typeof renderHistoryPagination === 'function') renderHistoryPagination();if(document.getElementById('modal-ledger').classList.contains('active'))openLedger(t.person);}">
+                    <div class="flex justify-between items-start p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition cursor-pointer" onclick="deleteTransaction(${realIndex}, '${jsPerson}')">
                         <div class="flex-1 pr-4">
-                            <p class="font-bold text-slate-800 text-sm leading-tight">${t.desc}</p>
-                            <p class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wide">${t.date}</p>
+                            <p class="font-bold text-slate-800 text-sm leading-tight">${escapeHtml(t.desc)}</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-wide">${escapeHtml(t.date)}</p>
                         </div>
                         <div class="text-right whitespace-nowrap">
-                            <span class="font-bold text-sm ${color}">${parseInt(t.amt).toLocaleString()}</span>
+                            <span class="font-bold text-sm ${color}">${Number(t.amt).toLocaleString()}</span>
                             ${balHtml}
                         </div>
                     </div>`;
@@ -473,19 +508,18 @@
         function openSettings() { openModal('settings'); }
         function openOnboarding() { document.getElementById('modal-onboarding').classList.add('active'); }
         function finishOnboarding() { const n=document.getElementById('setupName').value; if(n){appData.userName=n; saveData(); document.getElementById('modal-onboarding').classList.remove('active'); updateWelcome();} }
-        function updateWelcome() { document.getElementById('welcomeUser').innerText = "Hello, "+appData.userName; }
+        function updateWelcome() { document.getElementById('welcomeUser').innerText = "Hello, "+escapeHtml(appData.userName); }
         function changeName() { const n=prompt("Name:",appData.userName); if(n){appData.userName=n;saveData();updateWelcome();closeModal();} }
         
         function openAccountLedger(type) { 
             openModal('account-ledger'); 
             document.getElementById('accLedgerTitle').innerText=(type==='CASH'?"Cash":"Bank")+" Ledger"; 
             document.getElementById('accLedgerBalance').innerText=(type==='CASH'?appData.cash:appData.bank).toLocaleString(); 
-            // Use Timeline to get running balances
             const arr = getTimeline(type, null);
             renderTransList(arr, 'accLedgerList'); 
         }
 
-        function openAllFriendsModal() { openModal('all-friends'); document.getElementById('allFriendsList').innerHTML=Object.entries(appData.people).map(([n,b])=>`<div onclick="openLedger('${n}')" class="flex justify-between p-4 border rounded-xl mb-2"><span class="font-bold">${n}</span><span class="font-bold ${b>=0?'text-green-600':'text-red-500'}">${Math.abs(b)}</span></div>`).join(''); }
+        function openAllFriendsModal() { openModal('all-friends'); document.getElementById('allFriendsList').innerHTML=Object.entries(appData.people).map(([n,b])=>`<div onclick="openLedger('${escapeJs(n)}')" class="flex justify-between p-4 border rounded-xl mb-2"><span class="font-bold">${escapeHtml(n)}</span><span class="font-bold ${b>=0?'text-green-600':'text-red-500'}">${Math.abs(b)}</span></div>`).join(''); }
         
         function showAllHistory() { 
             historyPage = 0;
@@ -497,7 +531,7 @@
             const all = [...appData.trans].reverse();
             const start = historyPage * ITEMS_PER_PAGE;
             const paged = all.slice(start, start + ITEMS_PER_PAGE);
-            renderTransList(paged, 'fullHistoryList'); // No running balance in general history as context is mixed
+            renderTransList(paged, 'fullHistoryList'); 
 
             document.getElementById('btnPrevHistory').disabled = historyPage === 0;
             document.getElementById('btnNextHistory').disabled = (start + ITEMS_PER_PAGE) >= all.length;
@@ -519,16 +553,26 @@
         function openLedger(name) { 
             openModal('ledger'); 
             document.getElementById('ledgerName').innerText=name; 
-            // Use Timeline for Friend
             const arr = getTimeline('FRIEND', name);
             renderTransList(arr, 'ledgerList'); 
             document.getElementById('ledgerTotal').innerText=Math.abs(appData.people[name]); 
         }
 
-        function openEditFriends() { openModal('edit-friends'); const l=document.getElementById('editFriendsList'); l.innerHTML=''; Object.keys(appData.people).forEach(p=>{ l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${p}</span><div class="flex gap-2"><button onclick="renameFriend('${p}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${p}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; }); }
+        function openEditFriends() { 
+            openModal('edit-friends'); 
+            const l=document.getElementById('editFriendsList'); 
+            l.innerHTML=''; 
+            Object.keys(appData.people).forEach(p=>{ 
+                const safeP = escapeHtml(p);
+                const jsP = escapeJs(p);
+                l.innerHTML+=`<div class="flex justify-between p-3 border rounded-xl mb-2"><span class="font-bold">${safeP}</span><div class="flex gap-2"><button onclick="renameFriend('${jsP}')" class="text-blue-500"><i class="fa-solid fa-pen"></i></button><button onclick="deleteFriend('${jsP}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div></div>`; 
+            }); 
+        }
+
         function addPerson() { const n=document.getElementById('newPersonName').value; if(n){ appData.people[n]=0; saveData(); document.getElementById('newPersonName').value=''; alert("Added!"); } }
         function renameFriend(o) { const n=prompt("New Name:",o); if(n&&n!==o){appData.people[n]=appData.people[o]; delete appData.people[o]; appData.trans.forEach(t=>{if(t.person===o)t.person=n}); saveData(); openEditFriends();} }
         function deleteFriend(n) { if(confirm("Delete "+n+"?")) { delete appData.people[n]; appData.trans=appData.trans.filter(t=>t.person!==n); saveData(); openEditFriends(); } }
+        
         window.setSource=(v,b)=>{document.getElementById('inpSource').value=v; b.parentElement.querySelectorAll('button').forEach(x=>x.className="flex-1 py-3 font-bold rounded-lg text-slate-400"); b.className="flex-1 py-3 font-bold rounded-lg bg-white shadow text-blue-600";}
         window.setTransferMode=(m)=>{document.getElementById('transferMode').value=m; if(m==='GIVE'){document.getElementById('btnGive').className="bg-red-50 text-red-600 py-2 rounded-lg font-bold border border-red-100";document.getElementById('btnRec').className="text-slate-400 py-2 rounded-lg font-bold";}else{document.getElementById('btnRec').className="bg-green-50 text-green-600 py-2 rounded-lg font-bold border border-green-100";document.getElementById('btnGive').className="text-slate-400 py-2 rounded-lg font-bold";}}
         
