@@ -1,4 +1,4 @@
-const CACHE_NAME = 'splitify-v8.9-offline';
+const CACHE_NAME = 'splitify-v9.2-offline';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
