@@ -16,7 +16,7 @@
 
 You can use the web version directly or download the Android App (APK) below:
 
-[**📱 Download Splitify .APK**](https://github.com/gem-labs-pk/splitify/releases/download/v9.9/Splitify.apk)
+[**📱 Download Splitify .APK**](https://github.com/Gem-labs-pk/Splitify/releases/download/Splitify/Splitify.apk)
 
 ---
 
