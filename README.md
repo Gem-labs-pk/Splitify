@@ -6,62 +6,47 @@
 ![Status](https://img.shields.io/badge/status-active-success)
 ![PWA](https://img.shields.io/badge/PWA-Supported-purple)
 
-**Splitify** is a finance tracking web-based application designed to help roommates and friends split bills, manage debts, and track expenses without needing an internet connection.
+**Splitify** is a high-performance, offline-first application designed for roommates and friends to split bills, manage debts, and track shared expenses with zero latency.
 
-🔗 **Live Demo:** [https://gem-labs-pk.github.io/Splitify/](https://gem-labs-pk.github.io/Splitify/)
-
----
-
-## 📥 Download App
-
-You can use the web version directly or download the Android App (APK) below:
-
-[**📱 Download Splitify .APK**](https://github.com/Gem-labs-pk/Splitify/releases/download/Splitify/Splitify.apk)
+🔗 **Launch Web App:** [https://gem-labs-pk.github.io/Splitify/](https://gem-labs-pk.github.io/Splitify/)
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### 📊 Smart Dashboard
-* **Real-time Balances:** Instantly view **Cash in Hand** and **Bank Account** balances.
-* **Quick Stats:** Track weekly spending and net totals.
-
-### 🤝 Friend & Debt Management
-* **Friend Ledger:** Track individual balances with friends.
-* **Split Bills:** Automatically calculate shares and update debts for multiple people.
-* **History:** View detailed transaction logs for every contact.
-
-### 🛡️ Offline & Secure
-* **100% Offline:** Works entirely without internet (PWA).
-* **Local Data:** All data is stored on your device; nothing is sent to a server.
-* **Backup/Restore:** Export your data to JSON and restore it anytime.
+* **Real-time Balances:** Instantly monitor Cash-in-Hand and Bank balances through a dynamic dashboard.
+* **Intelligent Debt Tracking:** Automate bill splitting and maintain individual friend ledgers with full transaction history.
+* **Privacy & Offline-First:** 100% functional without internet. Data is stored locally on your device with manual JSON backup/restore options.
+* **PWA Optimized:** Installable on any device for a native app experience with zero server-side dependency.
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Core:** HTML5, Vanilla JavaScript
-* **Styling:** Tailwind CSS
-* **Icons:** FontAwesome
-* **PWA:** Service Worker & Manifest
+* **Frontend:** HTML5 & Vanilla JavaScript (ES6+)
+* **Styling:** Tailwind CSS & FontAwesome Icons
+* **Persistence:** LocalStorage API & Service Worker Caching
 
 ---
 
-## ⚙️ Installation (Web/PWA)
+## 📥 Access Options
 
-If you don't want to install the APK, you can install it as a PWA:
+### **Web & PWA (Recommended)**
+1. Open the [Live Link](https://gem-labs-pk.github.io/Splitify/) in your mobile browser.
+2. Select **"Install App"** or **"Add to Home Screen"** for the full native experience.
 
-1. Open [Splitify](https://gem-labs-pk.github.io/Splitify/) in Chrome.
-2. Tap the **Three Dots** menu.
-3. Select **"Install App"** or **"Add to Home Screen"**.
-
----
-
-## 👥 Authors
-
-* **Saqib Zahid**
-* **Muzammil Mahmood**
+### **Native Android**
+[**📱 Download Splitify .APK**](https://github.com/Gem-labs-pk/Splitify/releases/download/Splitify/Splitify.apk)
 
 ---
 
-*Version 9.9*
+## 👥 Credits
+
+* **Authors:** Saqib Zahid & Muzammil Mahmood
+* **AI Assistance:** Built using **Gemini (Student Version)**.
+
+⚠️ **Note:** This project is **Stable and Active**. It is currently used daily for production-level expense management.
+
+---
+
+*Splitify v9.9 | Powered by Gem Labs*
